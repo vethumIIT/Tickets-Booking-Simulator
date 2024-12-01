@@ -1,0 +1,66 @@
+
+
+:root{
+    --nav_colour: rgb(108, 179, 155);
+    --nav_colour_hover:  rgb(136, 221, 193);
+}
+
+nav{
+    width: 100%;
+    padding: 0px;
+    margin: 0;
+    height: auto;
+    position:sticky;
+    box-sizing: border-box;
+    top:0;
+    z-index: 10;
+    
+}
+
+.navList{
+    list-style-type: none;
+    background-color: var(--nav_colour);
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+.listItem{
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+.listLink{
+    text-decoration: none;
+    display: inline;
+    float: left;
+    padding: 10px;
+    color: white;
+    transition: .25s;
+    border-radius: 50%;
+}
+
+.listLink:hover{
+    background-color: var(--nav_colour_hover);
+    border-radius: 0%;
+}
+
+.rightLink{
+    float: right;
+}
+
+.nav-link{
+    height:auto;
+    padding: 10px;
+    text-decoration: none;
+    margin:auto;
+    margin-bottom: auto;
+
+    text-align: center;
+    vertical-align: middle;
+    justify-content: space-around;
+    display: flex;
+}
