@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class TicketBookingSimApp {
 	public static void main(String[] args) {
 
-		Thread simulationManagerThread = new Thread(() -> {
-			SimulatorManager.startRunningManager();
-		});
-		//simulationManagerThread.start();
-
 		SpringApplication.run(TicketBookingSimApp.class, args);
 	}
 

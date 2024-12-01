@@ -14,10 +14,14 @@ const SimulatorPage = () => {
 
     var [updateTime, setUpdateTime]=useState(1000);
 
+    var [customerBookings, setCustomerBookings] = useState();
+    var [vendorTickets, setVendorTickets] = useState();
+    var [ticketPool, setTicketPool] = useState();
+
 
     useEffect(()=>{
 
-        if(runningSimulation){
+        if(runningSimulation==true){
             setUpdateTime(20);
         }else{
             setUpdateTime(1000);
@@ -25,18 +29,23 @@ const SimulatorPage = () => {
         
         const interval = setInterval(() => {
             setUpdateCount((updateCount) => updateCount + 1); // Update state every second
-            console.log("update");
+            
             if(runningSimulation==true || firstRun==true){
                 setFirstRun(false);
                 console.log("Poll Logs");
                 getLogs();
+                getCustomerBookings();
+                getVendorTickets();
+                getTicketPool();
 
                 if (divRef.current) {
                     divRef.current.scrollTop = divRef.current.scrollHeight;
                 }
+            }else{
+                console.log("update");
             }
             
-          }, 20);
+          }, updateTime);
         
           return () => clearInterval(interval);
 
@@ -59,8 +68,78 @@ const SimulatorPage = () => {
 
             const result = await response.json(); // Parse the response
             setLogs(result);
-            //console.log(result);
-            //alert(result.message); // Handle the response
+            
+        } catch (error) {
+            console.error("Error in POST request:", error);
+        }
+    }
+
+    const getCustomerBookings = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/get_customer_bookings", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), 
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json(); // Parse the response
+            setCustomerBookings(result);
+            //console.log("customerBookings: ",result);
+            
+        } catch (error) {
+            console.error("Error in POST request:", error);
+        }
+    }
+
+    const getVendorTickets = async () => {
+        //setRunningSimulation(true);
+        try {
+            const response = await fetch("http://localhost:8080/api/get_vendor_tickets", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), 
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json(); // Parse the response
+            setVendorTickets(result);
+            //console.log("vendorTickets: ",result);
+
+        } catch (error) {
+            console.error("Error in POST request:", error);
+        }
+    }
+
+    const getTicketPool = async () => {
+        //setRunningSimulation(true);
+        try {
+            const response = await fetch("http://localhost:8080/api/get_tickets", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), 
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json(); // Parse the response
+            setTicketPool(result);
+            //console.log("TicketPool: ", ticketPool)
+
         } catch (error) {
             console.error("Error in POST request:", error);
         }
@@ -149,21 +228,20 @@ const SimulatorPage = () => {
 
     return(
         <>
-        <h1>This is the Simulation Page for the ticket booking Simulator</h1>
         <div id="mainDiv">
             <div id="formDiv">
                 <h2>Enter Values</h2>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="totalTickets">Enter ticket count:<br/>
+                    <label htmlFor="totalTickets">Ticket count:<br/>
                         <input type="number" name="totalTickets" id="totalTickets" onChange={handleChange}/>
                     </label>
-                    <label htmlFor="ticketReleaseRate">Enter ticket release rate:<br/>
+                    <label htmlFor="ticketReleaseRate">Ticket release rate:<br/>
                         <input type="number" name="ticketReleaseRate" id="ticketReleaseRate" onChange={handleChange}/>
                     </label>
-                    <label htmlFor="customerRetrievalRate">Enter customer retrieval rate: <br/>
+                    <label htmlFor="customerRetrievalRate">Customer retrieval rate: <br/>
                         <input type="number" name="customerRetrievalRate" id="customerRetrievalRate" onChange={handleChange}/>
                     </label>
-                    <label htmlFor="maxTicketCapacity">Enter maximum ticket capacity: <br/>
+                    <label htmlFor="maxTicketCapacity">Maximum ticket capacity: <br/>
                         <input type="number" name="maxTicketCapacity" id="maxTicketCapacity" onChange={handleChange}/>
                     </label>
                     <br/>
@@ -185,10 +263,64 @@ const SimulatorPage = () => {
                                 </>
                             ))}
                             </>
-                    ):(<></>)}
+                        ):(<></>)}
 
                     </ul>
                 </div>
+            </div>
+
+        </div>
+
+        <div id="visualSection">
+
+            <div id="customerVisual" className="visualElement">
+                <h3>Customers</h3>
+                <ul>
+                    {customerBookings!=null?(
+                        <>
+                        {Object.keys(customerBookings).map(
+                        (key) => (
+                            <li key={key}>Customer {key}: {customerBookings[key]} </li>
+                        ))}
+                        </>
+                    ):(<></>)}
+                    
+                </ul>
+
+            </div>
+
+            <div id="ticketPoolVisual" className="visualElement">
+                <h3>Ticket Pool</h3>
+                <ul>
+                {ticketPool!=null? (
+                            <>
+                            {ticketPool.map((ticket, index)=>(
+                                <>
+                                {ticket["customerId"]==0?(
+                                    <li key={index}>Ticket No {ticket["ticketId"]}</li>
+                                ):(<></>)}
+                                </>
+                            ))}
+                            </>
+                        ):(<></>)}
+                </ul>
+
+            </div>
+
+            <div id="vendorVisual" className="visualElement">
+                <h3>Vendors</h3>
+                <ul>
+                {vendorTickets!=null?(
+                        <>
+                        {Object.keys(vendorTickets).map(
+                        (key) => (
+                            <li key={key}>Vendor {key}: {vendorTickets[key]} </li>
+                        ))}
+                        </>
+                    ):(<></>)}
+
+                </ul>
+
             </div>
 
         </div>

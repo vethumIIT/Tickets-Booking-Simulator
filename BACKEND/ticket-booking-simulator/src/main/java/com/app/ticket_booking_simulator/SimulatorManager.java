@@ -3,16 +3,19 @@ package com.app.ticket_booking_simulator;
 import com.app.ticket_booking_simulator.repository.DBManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class SimulatorManager {
     private static DBManager db = new DBManager();
     private static boolean runningSimulator = false;
-    private static boolean runningManager = false;
     private static int vendor_customer_count = 100;
     private static int vendorDelayTime;
     private static int customerDelayTime;
+
+    private static HashMap<Integer, Integer> customerBookings = new HashMap<>();
+    private static HashMap<Integer, Integer> vendorTickets = new HashMap<>();
 
 
     public static void runSimulation(){
@@ -25,6 +28,8 @@ public class SimulatorManager {
         startRunningSimulator();
         LogManager.clearLogs();
         TicketPool.resetTicketPool();
+        initialiseCustomerBookings();
+        initialiseVendorTickets();
 
         for(int i=1;i<=vendor_customer_count;i++) { // Defining vendor and customer Threads.
             int id = i;
@@ -66,21 +71,6 @@ public class SimulatorManager {
         LogManager.log("Booked tickets count: "+bookedCount);
     }
 
-    public static void runSimulationManager(){
-        startRunningManager();
-        while (isRunningManager()){
-            if(isRunningSimulator()){
-                runSimulation();
-            }
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-    }
-
     public static void stopSimulation(){
         runningSimulator =false;
     }
@@ -93,15 +83,36 @@ public class SimulatorManager {
         return runningSimulator;
     }
 
-    public static boolean isRunningManager() {
-        return runningManager;
+    public static void initialiseCustomerBookings(){
+        customerBookings = new HashMap<>();
+        for(int i=1; i<=vendor_customer_count; i++){
+            customerBookings.put(i, 0);
+        }
     }
 
-    public static void startRunningManager() {
-        SimulatorManager.runningManager = true;
+    public static void initialiseVendorTickets(){
+        vendorTickets = new HashMap<>();
+        for(int i=1; i<=vendor_customer_count; i++){
+            vendorTickets.put(i, 0);
+        }
+
     }
 
-    public static void stopRunningManager() {
-        SimulatorManager.runningManager = false;
+    public static void recordCustomerBooking(int id){
+        int currentBookingCount = customerBookings.get(id);
+        customerBookings.put(id, currentBookingCount+1);
+    }
+
+    public static void recordVendorTicket(int id){
+        int vendorTicketCount = vendorTickets.get(id);
+        vendorTickets.put(id, vendorTicketCount+1);
+    }
+
+    public static HashMap<Integer, Integer> getCustomerBookings() {
+        return customerBookings;
+    }
+
+    public static HashMap<Integer, Integer> getVendorTickets() {
+        return vendorTickets;
     }
 }

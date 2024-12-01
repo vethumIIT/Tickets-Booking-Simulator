@@ -40,6 +40,8 @@ public class TicketPool {
 
             db.writeDatabase("INSERT INTO tickets (id, customer_id, vendor_id, isAvailable) VALUES (?, 0, ?, 1)", parameters);
 
+            SimulatorManager.recordVendorTicket(ticket.getVendorId());
+
             LogManager.log("Vendor "+ticket.getVendorId()+" added a ticket no "+ticketCount);
         }finally {
             lock.unlock();
@@ -74,6 +76,8 @@ public class TicketPool {
                 LogManager.log("Customer "+customerId+" booked a ticket no "+ticketBookedCount);
 
                 db.writeDatabase("UPDATE tickets SET isAvailable=false, customer_id=? WHERE id=?", parameters);
+
+                SimulatorManager.recordCustomerBooking(customerId);
 
                 ticketBookedCount++;
             }

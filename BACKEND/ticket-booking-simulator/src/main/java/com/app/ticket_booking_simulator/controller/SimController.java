@@ -2,6 +2,7 @@ package com.app.ticket_booking_simulator.controller;
 
 import com.app.ticket_booking_simulator.LogManager;
 import com.app.ticket_booking_simulator.SimulatorManager;
+import com.app.ticket_booking_simulator.Ticket;
 import com.app.ticket_booking_simulator.TicketPool;
 import com.app.ticket_booking_simulator.models.SimInitVal;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -51,4 +53,20 @@ public class SimController {
     public ResponseEntity<List<String>> get_logs(){
         return ResponseEntity.ok(LogManager.getLogs());
     }
+
+    @RequestMapping("/api/get_tickets")
+    public ResponseEntity<List<Ticket>> getTickets() {
+        return ResponseEntity.ok(TicketPool.getTicketsList());
+    }
+
+    @RequestMapping("/api/get_customer_bookings")
+    public ResponseEntity<Map<Integer, Integer>> getCustomerBookings() {
+        return ResponseEntity.ok(SimulatorManager.getCustomerBookings());
+    }
+
+    @RequestMapping("/api/get_vendor_tickets")
+    public ResponseEntity<Map<Integer, Integer>> getVendorTickets() {
+        return ResponseEntity.ok(SimulatorManager.getVendorTickets());
+    }
+
 }
