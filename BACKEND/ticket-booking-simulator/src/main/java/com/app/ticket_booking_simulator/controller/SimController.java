@@ -20,9 +20,9 @@ public class SimController {
 
     @RequestMapping("/api/start")
     public ResponseEntity<String> start(@RequestBody SimInitVal simulator_values){
-        if (simulator_values.getTotalTickets()>simulator_values.getMaxTicketCapacity()){
+        /*if (simulator_values.getTotalTickets()>simulator_values.getMaxTicketCapacity()){
             return ResponseEntity.ok("maximum ticket capacity cannot be greater than total tickets");
-        }
+        }*/
         if (simulator_values.getTicketReleaseRate()<1 ||simulator_values.getTotalTickets()<1 || simulator_values.getCustomerRetrievalRate()<1){
             return ResponseEntity.ok("all fields must have a minimum value of 1");
         }
@@ -46,6 +46,8 @@ public class SimController {
         }
         System.out.println(LogManager.getLogs().size());
 
+        while(!SimulatorManager.isRunSimulationEnd()){System.out.println("stopping");}
+
         return ResponseEntity.ok("Success");
     }
 
@@ -67,6 +69,13 @@ public class SimController {
     @RequestMapping("/api/get_vendor_tickets")
     public ResponseEntity<Map<Integer, Integer>> getVendorTickets() {
         return ResponseEntity.ok(SimulatorManager.getVendorTickets());
+    }
+
+    @RequestMapping("/api/stop")
+    public ResponseEntity<String> stopSimulation(){
+        SimulatorManager.stopSimulation();
+        //while(!SimulatorManager.isRunSimulationEnd()){System.out.println("stopping");}
+        return ResponseEntity.ok("Stopped");
     }
 
 }

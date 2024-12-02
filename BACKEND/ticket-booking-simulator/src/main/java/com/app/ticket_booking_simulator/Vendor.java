@@ -11,14 +11,19 @@ public class Vendor implements Runnable{
 
     @Override
     public void run(){
+        try {
+            Thread.sleep(1000L *this.getId());
+        } catch (InterruptedException ignored) {
+
+        }
         while (TicketPool.getTicketCount()<TicketPool.getTotalTickets() && SimulatorManager.isRunningSimulator()){
             //System.out.println("vendor "+id+" is waiting.");
             TicketPool.createTicket(new Ticket(this.getId()));
             try {
                 Thread.sleep(delayTime*1000);
                 Thread.sleep(2);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            } catch (InterruptedException ignored) {
+                break;
             }
         }
     }

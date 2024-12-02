@@ -5,21 +5,33 @@ import com.app.ticket_booking_simulator.repository.DBManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class SimulatorManager {
     private static DBManager db = new DBManager();
-    private static boolean runningSimulator = false;
-    private static int vendor_customer_count = 100;
+
+    private static final int vendor_customer_count = 50;
     private static int vendorDelayTime;
     private static int customerDelayTime;
+
+    private static boolean runSimulationEnd = true;
+    private static final ReentrantLock runSimulationEndLock = new ReentrantLock();
+
+
+    private static final ReentrantLock customerBookingLock = new ReentrantLock();
+    private static final ReentrantLock vendorTicketLock = new ReentrantLock();
 
     private static HashMap<Integer, Integer> customerBookings = new HashMap<>();
     private static HashMap<Integer, Integer> vendorTickets = new HashMap<>();
 
+    private static final ReentrantLock runningSimulationLock = new ReentrantLock();
+    private static boolean runningSimulator = false;
+
 
     public static void runSimulation(){
 
+        setRunSimulationEnd(false);
         db.setup();
         vendorDelayTime = vendor_customer_count/TicketPool.getTicketReleaseRate();
         customerDelayTime = vendor_customer_count/TicketPool.getCustomerRetrievalRate();
@@ -39,48 +51,88 @@ public class SimulatorManager {
 
         for(int i=1;i<=vendor_customer_count;i++){ // Starting vendor and customer Threads.
             vendors.get(i-1).start();
+            //LogManager.log("started vendor "+i);
             customers.get(i-1).start();
+            //LogManager.log("started customer "+i);
         }
         LogManager.log("Vendors Started");
 
-        while (TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()){
+        while (TicketPool.getTicketBookedCount()<=TicketPool.getTotalTickets()
+                && isRunningSimulator()
+                //&& TicketPool.getTicketsList().size()<=TicketPool.getMaxTicketCapacity()
+        ){
             try {
-                Thread.sleep(50);
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()){
+            LogManager.log("Simulation was stopped");
+        }
+
+
+        System.out.println("Joining Threads");
+        for(int i=1;i<=vendor_customer_count;i++) {
+            try {
+                vendors.get(i - 1).interrupt();
+                customers.get(i - 1).interrupt();
+                vendors.get(i - 1).join();
+                customers.get(i - 1).join();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
         stopSimulation();
 
-        for(int i=1;i<=vendor_customer_count;i++){
-            try {
-                vendors.get(i-1).join();
-                customers.get(i-1).join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        LogManager.log("calculating results");
 
-        LogManager.log("Added Tickets Count: "+TicketPool.getTicketsList().size());
-        int bookedCount = 0;
+        LogManager.log("Tickets in ticket pool: "+TicketPool.getTicketsList().size());
+        LogManager.log("Added Tickets Count: "+(TicketPool.getTicketCount()));
+        /*int bookedCount = 0;
         for(Ticket ticket : TicketPool.getTicketsList()){
             if (!ticket.isAvailable()){
                 bookedCount++;
             }
-        }
-        LogManager.log("Booked tickets count: "+bookedCount);
+        }*/
+        LogManager.log("Booked tickets count: "+(TicketPool.getTicketBookedCount()-1));
+        setRunSimulationEnd(true);
     }
 
     public static void stopSimulation(){
-        runningSimulator =false;
+        runningSimulationLock.lock();
+        try {
+            runningSimulator = false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            runningSimulationLock.unlock();
+        }
     }
 
     public static void startRunningSimulator(){
-        runningSimulator = true;
+        runningSimulationLock.lock();
+        try {
+            runningSimulator = true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            runningSimulationLock.unlock();
+        }
     }
 
     public static boolean isRunningSimulator(){
-        return runningSimulator;
+        runningSimulationLock.lock();
+        try {
+            return runningSimulator;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            runningSimulationLock.unlock();
+        }
     }
 
     public static void initialiseCustomerBookings(){
@@ -99,13 +151,30 @@ public class SimulatorManager {
     }
 
     public static void recordCustomerBooking(int id){
-        int currentBookingCount = customerBookings.get(id);
-        customerBookings.put(id, currentBookingCount+1);
+        customerBookingLock.lock();
+        try {
+            int currentBookingCount = customerBookings.get(id);
+            customerBookings.put(id, currentBookingCount + 1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            customerBookingLock.unlock();
+        }
+
     }
 
     public static void recordVendorTicket(int id){
-        int vendorTicketCount = vendorTickets.get(id);
-        vendorTickets.put(id, vendorTicketCount+1);
+        vendorTicketLock.lock();
+        try {
+            int vendorTicketCount = vendorTickets.get(id);
+            vendorTickets.put(id, vendorTicketCount + 1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            vendorTicketLock.unlock();
+        }
     }
 
     public static HashMap<Integer, Integer> getCustomerBookings() {
@@ -114,5 +183,27 @@ public class SimulatorManager {
 
     public static HashMap<Integer, Integer> getVendorTickets() {
         return vendorTickets;
+    }
+
+    public static boolean isRunSimulationEnd() {
+        runSimulationEndLock.lock();
+        try {
+            return runSimulationEnd;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            runSimulationEndLock.unlock();
+        }
+    }
+
+    public static void setRunSimulationEnd(boolean runSimulationEnd) {
+        runSimulationEndLock.lock();
+        try {
+            SimulatorManager.runSimulationEnd = runSimulationEnd;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            runSimulationEndLock.unlock();
+        }
     }
 }

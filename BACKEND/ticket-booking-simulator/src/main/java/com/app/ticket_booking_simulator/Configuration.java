@@ -7,11 +7,6 @@ public class Configuration {
     private static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
 
-        /*Thread simulationManagerThread = new Thread(() -> {
-            SimulatorManager.startRunningManager();
-        });
-        simulationManagerThread.start();*/
-
         int totalTickets = getIntInput("Enter total tickets: ");
         int ticketReleaseRate = getIntInput("Enter ticket release rate: ");
         int customerRetrievalRate = getIntInput("Enter customer retrieval rate: ");

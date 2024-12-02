@@ -22,7 +22,7 @@ const SimulatorPage = () => {
     useEffect(()=>{
 
         if(runningSimulation==true){
-            setUpdateTime(20);
+            setUpdateTime(100);
         }else{
             setUpdateTime(1000);
         }
@@ -183,9 +183,6 @@ const SimulatorPage = () => {
         }if(inputs["maxTicketCapacity"]<1){
             console.log("max ticket capacity must be 1 or higher");
             return;
-        }if(Number(inputs["maxTicketCapacity"])<Number(inputs["totalTickets"])){
-            console.log("max ticket capacity cannot be less than total tickets");
-            return;
         }
 
         alert("All values are valid!");
@@ -219,7 +216,32 @@ const SimulatorPage = () => {
 
             const result = await response.text(); // Parse the response
             alert(result); // Handle the response
-            setRunningSimulation(false);
+            if(result=="Success"){
+                setRunningSimulation(false);
+            }
+        } catch (error) {
+            console.error("Error in POST request:", error);
+        }
+
+    }
+
+    const handleStop = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/stop", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), // Convert JavaScript object to JSON string
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.text(); // Parse the response
+            alert(result); // Handle the response
+            //setRunningSimulation(false);
         } catch (error) {
             console.error("Error in POST request:", error);
         }
@@ -246,7 +268,9 @@ const SimulatorPage = () => {
                     </label>
                     <br/>
                     <input type='Submit' name='submit' id='submit' value="Start"/>
+                    
                 </form>
+                <button id="stop" onClick={handleStop}>Stop</button>
 
             </div>
 
@@ -271,56 +295,76 @@ const SimulatorPage = () => {
 
         </div>
 
+
         <div id="visualSection">
-
-            <div id="customerVisual" className="visualElement">
-                <h3>Customers</h3>
+            <h3>Stats Display</h3>
+            <div id="stats">
                 <ul>
-                    {customerBookings!=null?(
-                        <>
-                        {Object.keys(customerBookings).map(
-                        (key) => (
-                            <li key={key}>Customer {key}: {customerBookings[key]} </li>
-                        ))}
-                        </>
-                    ):(<></>)}
-                    
+                    <li>Total Tickets Added By Vendors: </li>
+                    <li>Total Tickets Purchased By Customers: </li>
+                    <li>Total Available Tickets: </li>
                 </ul>
-
             </div>
-
-            <div id="ticketPoolVisual" className="visualElement">
-                <h3>Ticket Pool</h3>
-                <ul>
-                {ticketPool!=null? (
+            <div id="visualisationDiv">
+                <div id="customerVisual" className="visualElement">
+                    <h3>Customers</h3>
+                    <table>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Tickets Bought</th>
+                        </tr>
+                        {customerBookings!=null?(
                             <>
-                            {ticketPool.map((ticket, index)=>(
-                                <>
-                                {ticket["customerId"]==0?(
-                                    <li key={index}>Ticket No {ticket["ticketId"]}</li>
-                                ):(<></>)}
-                                </>
+                            {Object.keys(customerBookings).map(
+                            (key) => (
+                                <tr key={key}>
+                                <td>Customer {key}</td><td>{customerBookings[key]} </td>
+                                </tr>
                             ))}
                             </>
                         ):(<></>)}
-                </ul>
+                        
+                    </table>
 
-            </div>
+                </div>
 
-            <div id="vendorVisual" className="visualElement">
-                <h3>Vendors</h3>
-                <ul>
-                {vendorTickets!=null?(
+                <div id="ticketPoolVisual" className="visualElement">
+                    <h3>Ticket Pool</h3>
+                    <ol>
+                    {ticketPool!=null? (
                         <>
-                        {Object.keys(vendorTickets).map(
-                        (key) => (
-                            <li key={key}>Vendor {key}: {vendorTickets[key]} </li>
+                        {ticketPool.map((ticket, index)=>(
+                            <>                                    
+                            <li key={index}>Ticket No {ticket["ticketId"]}</li>                                    
+                            </>
                         ))}
                         </>
                     ):(<></>)}
+                    </ol>
 
-                </ul>
+                </div>
 
+                <div id="vendorVisual" className="visualElement">
+                    <h3>Vendors</h3>
+                    <table>
+                        <tr>
+                            <th>Vendor Name</th>
+                            <th>Tickets Added</th>
+                        </tr>
+                    {vendorTickets!=null?(
+                            <>
+                            {Object.keys(vendorTickets).map(
+                            (key) => (
+                                <tr key={key}>
+                                <td>Vendor {key}</td><td>{vendorTickets[key]} </td>
+                                </tr>
+                            ))}
+                            </>
+                        ):(<></>)}
+
+                    </table>
+
+                </div>
             </div>
 
         </div>
