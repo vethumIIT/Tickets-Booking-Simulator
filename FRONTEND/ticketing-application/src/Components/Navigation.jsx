@@ -11,11 +11,7 @@ const Navigation = () => {
         <nav>
             <ul className="navList">
                 <li className="listItem">
-                <Link to="/" className="listLink">Home</Link>
-                </li>
-
-                <li className="listItem">
-                <Link to="/menu" className="listLink">Menu</Link>
+                <Link to="/" className="listLink">Ticket Booking Application</Link>
                 </li>
 
 

@@ -15,7 +15,7 @@ public class TicketPool {
     private static int customerRetrievalRate;// the rate at which tickets are purchased from the ticket pool
     private static int maxTicketCapacity;// the maximum number of tickets that can exist in the ticket pool at a given time.
 
-    private static int ticketBookedCount = 1;
+    private static int ticketBookedCount = 0;
     private static final ReentrantLock ticketBookedCountLock = new ReentrantLock();
 
     private static int ticketCount = 0;
@@ -24,29 +24,46 @@ public class TicketPool {
     private static List<Ticket> ticketsList = new ArrayList<>();
     private static DBManager db = new DBManager();
 
-    public static void createTicket(Ticket ticket){
+    private static int ticketsListSize = 0;
+    private static final ReentrantLock ticketsListSizeLock = new ReentrantLock();
+
+    public static synchronized void createTicket(Ticket ticket){
+        boolean maxTicketsFlag = false;
         if(!SimulatorManager.isRunningSimulator()){
             return;
-        } else if(getTicketsList().size()>=getMaxTicketCapacity()
-                && getTicketCount()!=getTotalTickets()-1 // added to ensure that the last ticket doesn't get left in case MaxTicketCapacity is 1
+        } else if(getTicketsListSize()>=getMaxTicketCapacity()
+                //&& getTicketCount()!=getTotalTickets()-1 // added to ensure that the last ticket doesn't get left in case MaxTicketCapacity is 1
         ){
             //LogManager.log("Maximum Ticket Capacity Reached");
-            System.out.println("Max Tickets Reached!!!");
+            //System.out.println("Max Tickets Reached!!!");
+            maxTicketsFlag=true;
             //SimulatorManager.stopSimulation();
             return;
         } else {
 
             lock.lock();
             try {
+                if (maxTicketsFlag){
+                    LogManager.log("illegal running after maxTicketCapacity was reached!");
+                }
+
+                /*try {
+                    Thread.sleep(0/getTicketReleaseRate());
+                } catch (InterruptedException e) {
+                    return;
+                }*/
+
+
                 //ticketCount++;
-                setTicketCount(getTicketCount() + 1);
-                if (getTicketCount() > getTotalTickets()) {
+
+                if (getTicketCount() >= getTotalTickets()) {
                     LogManager.log("Total Ticket Count Reached! no more tickets can be added.");
                     return;
                 }
-                ticket.setTicketId(getTicketCount());
+                ticket.setTicketId(getTicketCount()+1);
 
                 ticketsList.add(ticket);// add ticket to ticket list
+                changeTicketsListSize(1);
 
 
                 List<Object> parameters = new ArrayList<>();
@@ -57,6 +74,7 @@ public class TicketPool {
 
                 SimulatorManager.recordVendorTicket(ticket.getVendorId());
 
+                setTicketCount(getTicketCount() + 1);
                 LogManager.log("Vendor " + ticket.getVendorId() + " added ticket no " + getTicketCount());
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -67,14 +85,20 @@ public class TicketPool {
 
     }
 
-    public static void bookTicket(int customerId){
+    public static synchronized void bookTicket(int customerId){
         if(!SimulatorManager.isRunningSimulator()){
             return;
         }
         lock.lock();
         try{
-            if (getTicketBookedCount()>totalTickets){
-                LogManager.log("Sorry customer "+customerId+" out of tickets at "+getTicketBookedCount()+" tickets");
+            /*try {
+                Thread.sleep(1000*0/getCustomerRetrievalRate());
+            } catch (InterruptedException e) {
+                return;
+            }*/
+
+            if (getTicketBookedCount()>=totalTickets){
+                LogManager.log("Sorry customer "+customerId+" reached total tickets tickets at "+(getTicketBookedCount()+1)+" tickets");
                 return;
             }else if (getTicketCount()==0){
                 LogManager.log("No Tickets Available yet for customer "+customerId);
@@ -86,13 +110,14 @@ public class TicketPool {
                 Ticket booking_ticket = ticketsList.get(0);
 
                 ticketsList.remove(0);
+                changeTicketsListSize(-1);
 
                 List<Object> parameters = new ArrayList<>();
 
                 parameters.add(customerId);
-                parameters.add(getTicketBookedCount());
+                parameters.add(getTicketBookedCount()+1);
 
-                LogManager.log("Customer "+customerId+" booked ticket no "+getTicketBookedCount());
+                LogManager.log("Customer "+customerId+" booked ticket no "+(getTicketBookedCount()+1));
 
                 db.writeDatabase("UPDATE tickets SET isAvailable=false, customer_id=? WHERE id=?", parameters);
 
@@ -110,17 +135,41 @@ public class TicketPool {
 
     }
 
-    public String getStatus(){
+    public static int getTicketsListSize() {
+        lock.lock();
+        try {
+            return ticketsListSize;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    public static void setTicketsListSize(int ticketsListSize) {
+        lock.lock();
+        try {
+            TicketPool.ticketsListSize = ticketsListSize;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    public static void changeTicketsListSize(int changeValue) {
+        TicketPool.ticketsListSize += changeValue;
+    }
+
+    public static String getStatus(){
 
         Map<String, Integer> map = new HashMap<>();
 
-        map.put("totalTickets", getTotalTickets());
-        map.put("ticketReleaseRate", getTicketReleaseRate());
-        map.put("customerRetrievalRate", getCustomerRetrievalRate());
-        map.put("maxTicketCapacity", getMaxTicketCapacity());
-
         map.put("ticketBookedCount", getTicketBookedCount());
         map.put("ticketCount", getTicketCount());
+        map.put("ticketListSize", getTicketsListSize());
 
         Gson gson = new Gson();
 
@@ -129,8 +178,9 @@ public class TicketPool {
     }
 
     public static void resetTicketPool(){
-        setTicketBookedCount(1);
+        setTicketBookedCount(0);
         setTicketCount(0);
+        setTicketsListSize(0);
         clearTicketsList();
     }
 
@@ -144,6 +194,10 @@ public class TicketPool {
         } finally {
             lock.unlock();
         }
+    }
+
+    public static List<Ticket> getAsyncTicketsList() {
+        return ticketsList;
     }
 
     public static void clearTicketsList() {

@@ -39,14 +39,16 @@ public class SimController {
             SimulatorManager.runSimulation();
         }else {
             System.out.println("thread is already running");
+            return ResponseEntity.ok("Running");
         }
 
-        for (String log: LogManager.getLogs()){
+        /*for (String log: LogManager.getLogs()){
             System.out.println(log);
-        }
+        }*/
         System.out.println(LogManager.getLogs().size());
 
-        while(!SimulatorManager.isRunSimulationEnd()){System.out.println("stopping");}
+        //System.out.println("Stopping");
+        //while(!SimulatorManager.isRunSimulationEnd()){}
 
         return ResponseEntity.ok("Success");
     }
@@ -58,7 +60,7 @@ public class SimController {
 
     @RequestMapping("/api/get_tickets")
     public ResponseEntity<List<Ticket>> getTickets() {
-        return ResponseEntity.ok(TicketPool.getTicketsList());
+        return ResponseEntity.ok(TicketPool.getAsyncTicketsList());
     }
 
     @RequestMapping("/api/get_customer_bookings")
@@ -74,8 +76,19 @@ public class SimController {
     @RequestMapping("/api/stop")
     public ResponseEntity<String> stopSimulation(){
         SimulatorManager.stopSimulation();
-        //while(!SimulatorManager.isRunSimulationEnd()){System.out.println("stopping");}
+        while(!SimulatorManager.isRunSimulationEnd()){/*System.out.println("stopping");*/}
         return ResponseEntity.ok("Stopped");
+    }
+
+    @RequestMapping("/api/is_running")
+    public ResponseEntity<String> isRunning(){
+        boolean simIsRunning = SimulatorManager.isRunSimulationEnd();
+        return ResponseEntity.ok(String.valueOf(!simIsRunning));
+    }
+
+    @RequestMapping("/api/get_stats")
+    public ResponseEntity<String> getStats(){
+        return ResponseEntity.ok(TicketPool.getStatus());
     }
 
 }

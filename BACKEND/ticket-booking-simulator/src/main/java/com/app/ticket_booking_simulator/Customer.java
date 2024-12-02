@@ -13,21 +13,17 @@ public class Customer implements Runnable{
 
     @Override
     public void run(){
-        try {
-            Thread.sleep(1000*this.getId());
-        } catch (InterruptedException ignored) {
-
-        }
-        while (TicketPool.getTicketBookedCount()<=TicketPool.getTotalTickets() && SimulatorManager.isRunningSimulator()){
+        while (TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()
+                && SimulatorManager.isRunningSimulator()
+                && !Thread.interrupted()
+        ){
             //System.out.println("customer "+id+" is waiting.");
             TicketPool.bookTicket(this.getId());
             try {
-                Thread.sleep(delayTime*1000);
-                Thread.sleep(2);
-            } catch (InterruptedException ignored) {
+                Thread.sleep(delayTime);
+            } catch (InterruptedException e) {
                 break;
             }
-
         }
     }
 
@@ -38,8 +34,5 @@ public class Customer implements Runnable{
     public void setId(int id) {
         this.id = id;
     }
-
-
-
 
 }

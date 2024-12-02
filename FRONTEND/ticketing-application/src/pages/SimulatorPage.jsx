@@ -4,7 +4,6 @@ import "./form.css"
 
 const SimulatorPage = () => {
 
-    const [updateCount, setUpdateCount] = useState(0);
     const [inputs, setInputs] = useState({});
     const [logs, setLogs] = useState([""]);
     const [runningSimulation, setRunningSimulation] = useState(false);
@@ -16,19 +15,24 @@ const SimulatorPage = () => {
 
     var [customerBookings, setCustomerBookings] = useState();
     var [vendorTickets, setVendorTickets] = useState();
-    var [ticketPool, setTicketPool] = useState();
+    var [ticketPool, setTicketPool] = useState([]);
+
+    var [stats, setStats] = useState({
+        "ticketBookedCount":0,
+        "ticketCount":0,
+        "ticketListSize":0
+    });
 
 
     useEffect(()=>{
 
         if(runningSimulation==true){
-            setUpdateTime(100);
+            setUpdateTime(200);
         }else{
             setUpdateTime(1000);
         }
         
-        const interval = setInterval(() => {
-            setUpdateCount((updateCount) => updateCount + 1); // Update state every second
+        const interval = setInterval(() => { // Update state every second
             
             if(runningSimulation==true || firstRun==true){
                 setFirstRun(false);
@@ -37,6 +41,8 @@ const SimulatorPage = () => {
                 getCustomerBookings();
                 getVendorTickets();
                 getTicketPool();
+                getStats();
+                //checkRunning();
 
                 if (divRef.current) {
                     divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -49,7 +55,7 @@ const SimulatorPage = () => {
         
           return () => clearInterval(interval);
 
-    }, [runningSimulation, logs])
+    }, [runningSimulation, logs, firstRun, updateTime])
 
     const getLogs = async () => {
         //setRunningSimulation(true);
@@ -67,10 +73,40 @@ const SimulatorPage = () => {
             }
 
             const result = await response.json(); // Parse the response
-            setLogs(result);
+            if (result) {
+                //console.log("Result: ",result);
+                setLogs(result);
+            }
             
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in getLogs request:", error);
+            
+        }
+    }
+
+    const getStats = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/get_stats", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), 
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json(); // Parse the response
+            if (result) {
+                console.log("Stats: ",result);
+                setStats(result);
+            }
+            
+        } catch (error) {
+            console.error("Error in getStats request:", error);
+            
         }
     }
 
@@ -89,11 +125,14 @@ const SimulatorPage = () => {
             }
 
             const result = await response.json(); // Parse the response
-            setCustomerBookings(result);
+            if (result){
+                //console.log("Result: ",result);
+                setCustomerBookings(result);
+            }
             //console.log("customerBookings: ",result);
             
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in getCustomerBookings request:", error);
         }
     }
 
@@ -113,11 +152,14 @@ const SimulatorPage = () => {
             }
 
             const result = await response.json(); // Parse the response
-            setVendorTickets(result);
+            if (result){
+                //console.log("Result: ",result);
+                setVendorTickets(result);
+            }
             //console.log("vendorTickets: ",result);
 
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in getVendorTickets request:", error);
         }
     }
 
@@ -137,11 +179,13 @@ const SimulatorPage = () => {
             }
 
             const result = await response.json(); // Parse the response
-            setTicketPool(result);
-            //console.log("TicketPool: ", ticketPool)
+            if (result){
+                //console.log("Result: ",result);
+                setTicketPool(result);
+            }
 
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in getTicketPool request:", error);
         }
     }
 
@@ -216,11 +260,10 @@ const SimulatorPage = () => {
 
             const result = await response.text(); // Parse the response
             alert(result); // Handle the response
-            if(result=="Success"){
-                setRunningSimulation(false);
-            }
+            setRunningSimulation(false);
+            
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in hadnleStart request:", error);
         }
 
     }
@@ -243,7 +286,37 @@ const SimulatorPage = () => {
             alert(result); // Handle the response
             //setRunningSimulation(false);
         } catch (error) {
-            console.error("Error in POST request:", error);
+            console.error("Error in handleStop request:", error);
+        }
+
+    }
+
+    const checkRunning = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/is_running", {
+                method: "POST", // HTTP method
+                headers: {
+                    "Content-Type": "application/json", // Specify JSON format
+                },
+                body: JSON.stringify({}), // Convert JavaScript object to JSON string
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.text(); // Parse the response
+            if (result){
+                console.log("Result: ",result);
+                if(result=="true"){
+                    setRunningSimulation(true);
+                }else{
+                    setRunningSimulation(false);
+                }
+            }
+            console.log("Running: ",result); 
+        } catch (error) {
+            console.error("Error in checkRunning request:", error);
         }
 
     }
@@ -277,14 +350,11 @@ const SimulatorPage = () => {
             <div id="logsSection">
             <h3>Logs</h3>
                 <div className="logsDiv" ref={divRef}>
-                    
                     <ul>
                         {logs.length? (
                             <>
                             {logs.map((log, index)=>(
-                                <>
                                 <li key={index}>{log}</li>
-                                </>
                             ))}
                             </>
                         ):(<></>)}
@@ -299,11 +369,19 @@ const SimulatorPage = () => {
         <div id="visualSection">
             <h3>Stats Display</h3>
             <div id="stats">
-                <ul>
-                    <li>Total Tickets Added By Vendors: </li>
-                    <li>Total Tickets Purchased By Customers: </li>
-                    <li>Total Available Tickets: </li>
-                </ul>
+                <table>
+                    <tr><th>Number of Tickets Added By Vendors :   </th>
+                        <td className="tableStats">{stats.ticketBookedCount}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of Tickets Purchased By Customers :   </th>
+                        <td className="tableStats">{stats.ticketCount}</td>
+                        </tr>
+                    <tr>
+                        <th>Number of Tickets in Ticket Pool :   </th>
+                        <td className="tableStats">{stats.ticketListSize}</td>
+                    </tr>
+                </table>
             </div>
             <div id="visualisationDiv">
                 <div id="customerVisual" className="visualElement">

@@ -31,17 +31,15 @@ public class SimulatorManager {
 
     public static void runSimulation(){
 
+
         setRunSimulationEnd(false);
-        db.setup();
-        vendorDelayTime = vendor_customer_count/TicketPool.getTicketReleaseRate();
-        customerDelayTime = vendor_customer_count/TicketPool.getCustomerRetrievalRate();
+        vendorDelayTime = 1000 / TicketPool.getTicketReleaseRate();
+        customerDelayTime = 1000 / TicketPool.getCustomerRetrievalRate();
         List<Thread> customers = new ArrayList<>();
         List<Thread> vendors = new ArrayList<>();
         startRunningSimulator();
-        LogManager.clearLogs();
-        TicketPool.resetTicketPool();
-        initialiseCustomerBookings();
-        initialiseVendorTickets();
+
+        initialise();
 
         for(int i=1;i<=vendor_customer_count;i++) { // Defining vendor and customer Threads.
             int id = i;
@@ -57,7 +55,7 @@ public class SimulatorManager {
         }
         LogManager.log("Vendors Started");
 
-        while (TicketPool.getTicketBookedCount()<=TicketPool.getTotalTickets()
+        while(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()
                 && isRunningSimulator()
                 //&& TicketPool.getTicketsList().size()<=TicketPool.getMaxTicketCapacity()
         ){
@@ -73,7 +71,7 @@ public class SimulatorManager {
 
 
         System.out.println("Joining Threads");
-        for(int i=1;i<=vendor_customer_count;i++) {
+        for (int i = 1; i <= vendor_customer_count; i++) {
             try {
                 vendors.get(i - 1).interrupt();
                 customers.get(i - 1).interrupt();
@@ -87,16 +85,19 @@ public class SimulatorManager {
 
         LogManager.log("calculating results");
 
-        LogManager.log("Tickets in ticket pool: "+TicketPool.getTicketsList().size());
-        LogManager.log("Added Tickets Count: "+(TicketPool.getTicketCount()));
-        /*int bookedCount = 0;
-        for(Ticket ticket : TicketPool.getTicketsList()){
-            if (!ticket.isAvailable()){
-                bookedCount++;
-            }
-        }*/
-        LogManager.log("Booked tickets count: "+(TicketPool.getTicketBookedCount()-1));
+        LogManager.log("Tickets in ticket pool: " + (TicketPool.getTicketsListSize()) );
+        LogManager.log("Added Tickets Count: " + (TicketPool.getTicketCount()));
+
+        LogManager.log("Booked tickets count: " + (TicketPool.getTicketBookedCount()));
         setRunSimulationEnd(true);
+    }
+
+    public static void initialise(){
+        db.setup();
+        LogManager.clearLogs();
+        TicketPool.resetTicketPool();
+        initialiseCustomerBookings();
+        initialiseVendorTickets();
     }
 
     public static void stopSimulation(){

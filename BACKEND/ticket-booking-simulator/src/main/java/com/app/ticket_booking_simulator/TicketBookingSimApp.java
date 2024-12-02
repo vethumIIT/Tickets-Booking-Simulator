@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class TicketBookingSimApp {
 	public static void main(String[] args) {
 
+		SimulatorManager.initialise();
 		SpringApplication.run(TicketBookingSimApp.class, args);
 	}
 
