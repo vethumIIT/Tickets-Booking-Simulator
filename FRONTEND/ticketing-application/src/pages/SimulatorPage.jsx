@@ -327,7 +327,7 @@ const SimulatorPage = () => {
             <div id="formDiv">
                 <h2>Enter Values</h2>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="totalTickets">Ticket count:<br/>
+                    <label htmlFor="totalTickets">Total Tickets:<br/>
                         <input type="number" name="totalTickets" id="totalTickets" onChange={handleChange}/>
                     </label>
                     <label htmlFor="ticketReleaseRate">Ticket release rate:<br/>

@@ -83,8 +83,6 @@ public class SimulatorManager {
         }
         stopSimulation();
 
-        LogManager.log("calculating results");
-
         LogManager.log("Tickets in ticket pool: " + (TicketPool.getTicketsListSize()) );
         LogManager.log("Added Tickets Count: " + (TicketPool.getTicketCount()));
 
