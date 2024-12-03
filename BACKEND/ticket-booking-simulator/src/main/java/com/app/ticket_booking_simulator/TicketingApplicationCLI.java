@@ -1,9 +1,12 @@
 package com.app.ticket_booking_simulator;
 
+import com.app.ticket_booking_simulator.models.Configuration;
+import com.app.ticket_booking_simulator.services.SimulatorManager;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Configuration {
+public class TicketingApplicationCLI {
     private static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
 
@@ -12,10 +15,10 @@ public class Configuration {
         int customerRetrievalRate = getIntInput("Enter customer retrieval rate: ");
         int maxTicketCapacity = getIntInput("Enter maximum ticket capacity: ");
 
-        TicketPool.setTotalTickets(totalTickets);
-        TicketPool.setTicketReleaseRate(ticketReleaseRate);
-        TicketPool.setCustomerRetrievalRate(customerRetrievalRate);
-        TicketPool.setMaxTicketCapacity(maxTicketCapacity);
+
+        Configuration config = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+
+        config.configure();
 
         SimulatorManager.runSimulation();
     }

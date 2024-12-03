@@ -60,7 +60,7 @@ To use this application you have 2 options
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
-3. Step 3: In `Intellij IDEA` and locate the file `<Your project file location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\Configuration.java` and run that file.
+3. Step 3: In `Intellij IDEA` and locate the file `<Your project file location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketingApplicationCLI.java` and run that file.
 
 
 ## How to use the application

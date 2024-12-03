@@ -1,5 +1,6 @@
-package com.app.ticket_booking_simulator;
+package com.app.ticket_booking_simulator.services;
 
+import com.app.ticket_booking_simulator.models.Ticket;
 import com.app.ticket_booking_simulator.repository.DBManager;
 import com.google.gson.Gson;
 

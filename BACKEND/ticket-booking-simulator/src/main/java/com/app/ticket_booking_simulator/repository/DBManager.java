@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class DBManager {
     private static final Logger logger = LoggerFactory.getLogger(DBManager.class);
-    private String url = "jdbc:sqlite:mydatabase.db";
+    private String url = "jdbc:sqlite:DataFiles/mydatabase.db";
 
     public DBManager(){}
 

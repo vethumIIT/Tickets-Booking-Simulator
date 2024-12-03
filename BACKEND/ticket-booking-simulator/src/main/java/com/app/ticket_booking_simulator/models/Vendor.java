@@ -1,4 +1,7 @@
-package com.app.ticket_booking_simulator;
+package com.app.ticket_booking_simulator.models;
+
+import com.app.ticket_booking_simulator.services.SimulatorManager;
+import com.app.ticket_booking_simulator.services.TicketPool;
 
 public class Vendor implements Runnable{
     private int id;

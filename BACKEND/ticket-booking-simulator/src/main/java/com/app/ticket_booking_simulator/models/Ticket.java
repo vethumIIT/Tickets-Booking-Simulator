@@ -1,4 +1,4 @@
-package com.app.ticket_booking_simulator;
+package com.app.ticket_booking_simulator.models;
 
 public class Ticket {
     private int vendorId;

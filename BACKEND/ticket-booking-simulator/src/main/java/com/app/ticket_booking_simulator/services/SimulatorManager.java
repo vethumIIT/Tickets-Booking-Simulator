@@ -1,5 +1,7 @@
-package com.app.ticket_booking_simulator;
+package com.app.ticket_booking_simulator.services;
 
+import com.app.ticket_booking_simulator.models.Customer;
+import com.app.ticket_booking_simulator.models.Vendor;
 import com.app.ticket_booking_simulator.repository.DBManager;
 
 import java.util.ArrayList;
@@ -12,8 +14,6 @@ public class SimulatorManager {
     private static DBManager db = new DBManager();
 
     private static final int vendor_customer_count = 50;
-    private static int vendorDelayTime;
-    private static int customerDelayTime;
 
     private static boolean runSimulationEnd = true;
     private static final ReentrantLock runSimulationEndLock = new ReentrantLock();
@@ -33,8 +33,8 @@ public class SimulatorManager {
 
 
         setRunSimulationEnd(false);
-        vendorDelayTime = 1000 / TicketPool.getTicketReleaseRate();
-        customerDelayTime = 1000 / TicketPool.getCustomerRetrievalRate();
+        int vendorDelayTime = 1000 / TicketPool.getTicketReleaseRate();
+        int customerDelayTime = 1000 / TicketPool.getCustomerRetrievalRate();
         List<Thread> customers = new ArrayList<>();
         List<Thread> vendors = new ArrayList<>();
         startRunningSimulator();

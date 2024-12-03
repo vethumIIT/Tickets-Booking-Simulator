@@ -1,9 +1,10 @@
 package com.app.ticket_booking_simulator.controller;
 
-import com.app.ticket_booking_simulator.LogManager;
-import com.app.ticket_booking_simulator.SimulatorManager;
-import com.app.ticket_booking_simulator.Ticket;
-import com.app.ticket_booking_simulator.TicketPool;
+import com.app.ticket_booking_simulator.services.LogManager;
+import com.app.ticket_booking_simulator.services.SimulatorManager;
+import com.app.ticket_booking_simulator.models.Configuration;
+import com.app.ticket_booking_simulator.models.Ticket;
+import com.app.ticket_booking_simulator.services.TicketPool;
 import com.app.ticket_booking_simulator.models.SimInitVal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,11 +28,13 @@ public class SimController {
             return ResponseEntity.ok("all fields must have a minimum value of 1");
         }
 
-        TicketPool.setTotalTickets(simulator_values.getTotalTickets());
-        TicketPool.setTicketReleaseRate(simulator_values.getTicketReleaseRate());
-        TicketPool.setCustomerRetrievalRate(simulator_values.getCustomerRetrievalRate());
-        TicketPool.setMaxTicketCapacity(simulator_values.getMaxTicketCapacity());
+        Configuration config = new Configuration(
+                simulator_values.getTotalTickets(),
+                simulator_values.getTicketReleaseRate(),
+                simulator_values.getCustomerRetrievalRate(),
+                simulator_values.getMaxTicketCapacity());
 
+        config.configure();// configures values
 
         System.out.println("right before entering the if statement where we start simulator");
         if (!SimulatorManager.isRunningSimulator()) {

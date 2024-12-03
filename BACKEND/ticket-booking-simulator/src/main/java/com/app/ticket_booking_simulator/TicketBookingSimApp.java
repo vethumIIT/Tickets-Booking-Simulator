@@ -1,5 +1,6 @@
 package com.app.ticket_booking_simulator;
 
+import com.app.ticket_booking_simulator.services.SimulatorManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
