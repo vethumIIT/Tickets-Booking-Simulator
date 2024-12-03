@@ -35,7 +35,7 @@ public class TicketPool {
         } else if(getTicketsListSize()>=getMaxTicketCapacity()
                 //&& getTicketCount()!=getTotalTickets()-1 // added to ensure that the last ticket doesn't get left in case MaxTicketCapacity is 1
         ){
-            //LogManager.log("Maximum Ticket Capacity Reached");
+            LogManager.log("Maximum Ticket Capacity Please wait Vendor "+ticket.getVendorId());
             //System.out.println("Max Tickets Reached!!!");
             maxTicketsFlag=true;
             //SimulatorManager.stopSimulation();

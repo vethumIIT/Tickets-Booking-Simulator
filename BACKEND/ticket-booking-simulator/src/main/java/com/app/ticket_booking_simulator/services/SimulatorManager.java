@@ -49,16 +49,12 @@ public class SimulatorManager {
 
         for(int i=1;i<=vendor_customer_count;i++){ // Starting vendor and customer Threads.
             vendors.get(i-1).start();
-            //LogManager.log("started vendor "+i);
             customers.get(i-1).start();
-            //LogManager.log("started customer "+i);
         }
         LogManager.log("Vendors Started");
 
         while(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()
-                && isRunningSimulator()
-                //&& TicketPool.getTicketsList().size()<=TicketPool.getMaxTicketCapacity()
-        ){
+                && isRunningSimulator()){
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {

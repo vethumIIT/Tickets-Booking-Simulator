@@ -6,13 +6,13 @@ This Ticket Booking Simulator is a multi-threaded Application that simulates a r
 
 ## Setup Instructions
 
-### &nbsp;&nbsp;1. Prerequisits
+### 1. Prerequisits
 
 - `Java 17` or later.
 
-- `NPM - version 10.9.0` or later.
+- `npm - version 10.9.0` or later.
 
-- A Modern Browser (Eg: `Google Chrome, Microsoft Edge etc.`)
+- A Modern Browser (Eg: `Google Chrome`, `Microsoft Edge` etc.)
 
 - `Node JS - v22.11.0` or later
 
@@ -89,6 +89,8 @@ Once you enter the final value, the simulation will start running and the logs o
     Enter ticket release rate: 20
     Enter customer retrieval rate: 10
     Enter maximum ticket capacity: 30
+    Database Opened successfully!
+    Table Created Successfully!
     Vendors Started
     Vendor 7 added ticket no 1
     Customer 6 booked ticket no 1
@@ -98,7 +100,6 @@ Once you enter the final value, the simulation will start running and the logs o
     Customer 4 booked ticket no 3
     Vendor 4 added ticket no 4
     Customer 3 booked ticket no 4
-    Vendor 3 added ticket no 5
     ...
 
 Once the Simulation ends the following information will be displayed on the screen.

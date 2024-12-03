@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @SpringBootApplication
 @CrossOrigin(origins = "http://localhost:5173")
 @ComponentScan(basePackages = {
-		"com.app.ticket_booking_simulator.controller",
-		"com.app.ticket_booking_simulator.services",
-		"com.app.ticket_booking_simulator.repositories"
+		"com.app.ticket_booking_simulator.controller"
 })
 public class TicketBookingSimApp {
 	public static void main(String[] args) {

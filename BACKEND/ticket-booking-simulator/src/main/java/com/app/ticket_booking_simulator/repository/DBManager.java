@@ -1,5 +1,6 @@
 package com.app.ticket_booking_simulator.repository;
 
+import com.app.ticket_booking_simulator.services.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sqlite.SQLiteErrorCode;
@@ -127,7 +128,7 @@ public class DBManager {
         try{
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(this.url);
-            System.out.println("Database Opened successfully!");
+            LogManager.log("Database Opened successfully!");
 
             stmt = c.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS tickets (\n" +
@@ -139,7 +140,7 @@ public class DBManager {
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
-            System.out.println("Table Created Successfully!");
+            LogManager.log("Table Created Successfully!");
 
             this.writeDatabase("DELETE FROM tickets",null);
 
