@@ -5,7 +5,6 @@ import com.app.ticket_booking_simulator.services.SimulatorManager;
 import com.app.ticket_booking_simulator.models.Configuration;
 import com.app.ticket_booking_simulator.models.Ticket;
 import com.app.ticket_booking_simulator.services.TicketPool;
-import com.app.ticket_booking_simulator.models.SimInitVal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,23 +16,13 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-public class SimController {
+public class AppController {
 
     @RequestMapping("/api/start")
-    public ResponseEntity<String> start(@RequestBody SimInitVal simulator_values){
-        /*if (simulator_values.getTotalTickets()>simulator_values.getMaxTicketCapacity()){
-            return ResponseEntity.ok("maximum ticket capacity cannot be greater than total tickets");
-        }*/
-        if (simulator_values.getTicketReleaseRate()<1 ||simulator_values.getTotalTickets()<1 || simulator_values.getCustomerRetrievalRate()<1){
+    public ResponseEntity<String> start(@RequestBody Configuration config){
+        if (!config.isValid()){
             return ResponseEntity.ok("all fields must have a minimum value of 1");
         }
-
-        Configuration config = new Configuration(
-                simulator_values.getTotalTickets(),
-                simulator_values.getTicketReleaseRate(),
-                simulator_values.getCustomerRetrievalRate(),
-                simulator_values.getMaxTicketCapacity());
-
         config.configure();// configures values
 
         System.out.println("right before entering the if statement where we start simulator");

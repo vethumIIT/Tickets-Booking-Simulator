@@ -35,10 +35,8 @@ public class TicketPool {
         } else if(getTicketsListSize()>=getMaxTicketCapacity()
                 //&& getTicketCount()!=getTotalTickets()-1 // added to ensure that the last ticket doesn't get left in case MaxTicketCapacity is 1
         ){
-            LogManager.log("Maximum Ticket Capacity Please wait Vendor "+ticket.getVendorId());
-            //System.out.println("Max Tickets Reached!!!");
+            LogManager.log("Maximum Ticket Capacity Reached Please wait Vendor "+ticket.getVendorId());
             maxTicketsFlag=true;
-            //SimulatorManager.stopSimulation();
             return;
         } else {
 
@@ -47,15 +45,6 @@ public class TicketPool {
                 if (maxTicketsFlag){
                     LogManager.log("illegal running after maxTicketCapacity was reached!");
                 }
-
-                /*try {
-                    Thread.sleep(0/getTicketReleaseRate());
-                } catch (InterruptedException e) {
-                    return;
-                }*/
-
-
-                //ticketCount++;
 
                 if (getTicketCount() >= getTotalTickets()) {
                     LogManager.log("Total Ticket Count Reached! no more tickets can be added.");

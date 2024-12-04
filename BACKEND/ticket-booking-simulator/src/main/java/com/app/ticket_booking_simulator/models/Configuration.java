@@ -29,6 +29,15 @@ public class Configuration {
         writeConfigToFile();
     }
 
+    public boolean isValid(){
+        if(this.totalTickets<1 || ticketReleaseRate<1 || customerRetrievalRate<1 || maxTicketCapacity<1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public String toJson(){
         Gson gson = new Gson();
 

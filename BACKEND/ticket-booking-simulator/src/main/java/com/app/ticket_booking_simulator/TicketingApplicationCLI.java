@@ -30,16 +30,17 @@ public class TicketingApplicationCLI {
             try {
                 System.out.print(promptText);
                 returnValue = input.nextInt();
-                validValue = true;
+                if (returnValue>=1) {
+                    validValue = true;
+                }else{
+                    System.out.println("value must be 1 or greater");
+                }
+
             } catch (InputMismatchException e) {
                 System.out.println("Your input must be a text");
+                input.next();
             }
         }
-        if (returnValue==-1){
-            System.exit(1);
-        }
         return returnValue;
-
-
     }
 }
