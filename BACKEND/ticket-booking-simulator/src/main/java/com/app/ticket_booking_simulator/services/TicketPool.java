@@ -159,6 +159,11 @@ public class TicketPool {
         map.put("ticketCount", getTicketCount());
         map.put("ticketListSize", getTicketsListSize());
 
+        map.put("totalTickets", getTotalTickets());
+        map.put("ticketReleaseRate", getTicketReleaseRate());
+        map.put("customerRetrievalRate", getCustomerRetrievalRate());
+        map.put("maxTicketCapacity", getMaxTicketCapacity());
+
         Gson gson = new Gson();
 
 

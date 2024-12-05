@@ -20,7 +20,12 @@ const SimulatorPage = () => {
     var [stats, setStats] = useState({
         "ticketBookedCount":0,
         "ticketCount":0,
-        "ticketListSize":0
+        "ticketListSize":0,
+
+        "totalTickets":0,
+        "ticketReleaseRate":0,
+        "customerRetrievalRate":0,
+        "maxTicketCapacity":0
     });
 
     var [totalTickets, setTotalTickets] = useState(0);
@@ -45,7 +50,7 @@ const SimulatorPage = () => {
                 getVendorTickets();
                 getTicketPool();
                 getStats();
-                //checkRunning();
+                checkRunning();
 
                 if (divRef.current) {
                     divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -383,18 +388,18 @@ const SimulatorPage = () => {
             <div id="stats">
                 <table>
                     <tr><th>Number of Tickets Added By Vendors :   </th>
-                        <td className="tableStats">{stats.ticketCount}/{totalTickets}</td>
-                        <td><progress value={stats.ticketCount} max={totalTickets} style={{ width: "300px" }}></progress></td>
+                        <td className="tableStats">{stats.ticketCount}/{stats.totalTickets}</td>
+                        <td><progress value={stats.ticketCount} max={stats.totalTickets} style={{ width: "300px" }}></progress></td>
                     </tr>
                     <tr>
                         <th>Number of Tickets Purchased By Customers :   </th>
-                        <td className="tableStats">{stats.ticketBookedCount}/{totalTickets}</td>
-                        <td><progress value={stats.ticketBookedCount} max={totalTickets} style={{ width: "300px" }}></progress></td>
+                        <td className="tableStats">{stats.ticketBookedCount}/{stats.totalTickets}</td>
+                        <td><progress value={stats.ticketBookedCount} max={stats.totalTickets} style={{ width: "300px" }}></progress></td>
                         </tr>
                     <tr>
                         <th>Number of Tickets in Ticket Pool :   </th>
-                        <td className="tableStats">{stats.ticketListSize}/{maxTicketCapacity}</td>
-                        <td><progress value={stats.ticketListSize} max={maxTicketCapacity} style={{ width: "300px" }}></progress></td>
+                        <td className="tableStats">{stats.ticketListSize}/{stats.maxTicketCapacity}</td>
+                        <td><progress value={stats.ticketListSize} max={stats.maxTicketCapacity} style={{ width: "300px" }}></progress></td>
                     </tr>
                 </table>
             </div>
