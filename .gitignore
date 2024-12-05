@@ -1,6 +1,6 @@
 
-BACKEND/ticket-booking-simulator/mydatabase.db
-BACKEND/ticket-booking-simulator/DataFiles/mydatabase.db
-BACKEND/ticket-booking-simulator/DataFiles/Logs.txt
-BACKEND/ticket-booking-simulator/DataFiles/Logs.txt
+/.vscode
 BACKEND/ticket-booking-simulator/DataFiles/configs.txt
+BACKEND/ticket-booking-simulator/DataFiles/Logs.txt
+BACKEND/ticket-booking-simulator/DataFiles/mydatabase.db
+

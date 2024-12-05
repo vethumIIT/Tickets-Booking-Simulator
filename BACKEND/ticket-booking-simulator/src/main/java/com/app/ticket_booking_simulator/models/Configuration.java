@@ -51,4 +51,20 @@ public class Configuration {
             e.printStackTrace();
         }
     }
+
+    public int getTotalTickets() {
+        return totalTickets;
+    }
+
+    public int getTicketReleaseRate() {
+        return ticketReleaseRate;
+    }
+
+    public int getCustomerRetrievalRate() {
+        return customerRetrievalRate;
+    }
+
+    public int getMaxTicketCapacity() {
+        return maxTicketCapacity;
+    }
 }

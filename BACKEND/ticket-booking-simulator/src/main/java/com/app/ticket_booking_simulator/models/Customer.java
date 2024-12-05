@@ -6,7 +6,6 @@ import com.app.ticket_booking_simulator.services.TicketPool;
 public class Customer implements Runnable{
     private int id;
     private long delayTime;
-    private String name;
 
 
     public Customer(int id, long delayTime) {

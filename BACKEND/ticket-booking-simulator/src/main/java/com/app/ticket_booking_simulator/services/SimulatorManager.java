@@ -1,5 +1,6 @@
 package com.app.ticket_booking_simulator.services;
 
+import com.app.ticket_booking_simulator.models.Configuration;
 import com.app.ticket_booking_simulator.models.Customer;
 import com.app.ticket_booking_simulator.models.Vendor;
 import com.app.ticket_booking_simulator.repository.DBManager;
@@ -29,12 +30,21 @@ public class SimulatorManager {
     private static boolean runningSimulator = false;
 
 
-    public static void runSimulation(){
+    public static void runSimulation(Configuration config){
 
 
         setRunSimulationEnd(false);
+
+        TicketPool.setTotalTickets(config.getTotalTickets());
+        TicketPool.setTicketReleaseRate(config.getTicketReleaseRate());
+        TicketPool.setCustomerRetrievalRate(config.getCustomerRetrievalRate());
+        TicketPool.setMaxTicketCapacity(config.getMaxTicketCapacity());
+
+        config.writeConfigToFile();
+
         int vendorDelayTime = 1000 / TicketPool.getTicketReleaseRate();
         int customerDelayTime = 1000 / TicketPool.getCustomerRetrievalRate();
+
         List<Thread> customers = new ArrayList<>();
         List<Thread> vendors = new ArrayList<>();
         startRunningSimulator();

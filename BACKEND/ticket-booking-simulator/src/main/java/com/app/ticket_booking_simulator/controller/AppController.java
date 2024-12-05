@@ -23,12 +23,11 @@ public class AppController {
         if (!config.isValid()){
             return ResponseEntity.ok("all fields must have a minimum value of 1");
         }
-        config.configure();// configures values
 
         System.out.println("right before entering the if statement where we start simulator");
         if (!SimulatorManager.isRunningSimulator()) {
             System.out.println("starting run simulation");
-            SimulatorManager.runSimulation();
+            SimulatorManager.runSimulation(config);
         }else {
             System.out.println("thread is already running");
             return ResponseEntity.ok("Running");

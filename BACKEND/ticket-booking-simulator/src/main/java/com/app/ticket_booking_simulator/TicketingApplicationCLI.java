@@ -18,9 +18,7 @@ public class TicketingApplicationCLI {
 
         Configuration config = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
 
-        config.configure();
-
-        SimulatorManager.runSimulation();
+        SimulatorManager.runSimulation(config);
     }
 
     public static int getIntInput(String promptText){

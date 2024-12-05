@@ -126,7 +126,6 @@ const SimulatorPage = () => {
 
             const result = await response.json(); // Parse the response
             if (result){
-                //console.log("Result: ",result);
                 setCustomerBookings(result);
             }
             //console.log("customerBookings: ",result);
@@ -137,7 +136,6 @@ const SimulatorPage = () => {
     }
 
     const getVendorTickets = async () => {
-        //setRunningSimulation(true);
         try {
             const response = await fetch("http://localhost:8080/api/get_vendor_tickets", {
                 method: "POST", // HTTP method
@@ -284,7 +282,6 @@ const SimulatorPage = () => {
 
             const result = await response.text(); // Parse the response
             alert(result); // Handle the response
-            //setRunningSimulation(false);
         } catch (error) {
             console.error("Error in handleStop request:", error);
         }
@@ -371,11 +368,11 @@ const SimulatorPage = () => {
             <div id="stats">
                 <table>
                     <tr><th>Number of Tickets Added By Vendors :   </th>
-                        <td className="tableStats">{stats.ticketBookedCount}</td>
+                        <td className="tableStats">{stats.ticketCount}</td>
                     </tr>
                     <tr>
                         <th>Number of Tickets Purchased By Customers :   </th>
-                        <td className="tableStats">{stats.ticketCount}</td>
+                        <td className="tableStats">{stats.ticketBookedCount}</td>
                         </tr>
                     <tr>
                         <th>Number of Tickets in Ticket Pool :   </th>
