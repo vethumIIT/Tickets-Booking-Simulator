@@ -50,11 +50,13 @@ To use this application you have 2 options
 
 2. Step 2: Open `Command Prompt` in the relavent folder
 
-3. Step 3: type the command `npm run dev`, and the react app will start running.
+3. Step 3: Type the command `npm install` to install the dependencies.
 
-4. Now you have the frontend running. To access it  open your browser and enter `http://localhost:5173/` in your address bar.
+4. Step 4: Now type the command `npm run dev`, and the react app will start running.
 
-### 2. CLI (Option).
+5. Now you have the frontend running. To access it  open your browser and enter `http://localhost:5173/` in your address bar.
+
+### 2. CLI (Option)
 
 1. Step 1 Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\BACKEND`
 
