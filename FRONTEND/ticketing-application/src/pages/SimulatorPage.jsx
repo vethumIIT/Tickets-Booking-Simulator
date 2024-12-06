@@ -47,11 +47,7 @@ const SimulatorPage = () => {
             if(runningSimulation==true || firstRun==true){
                 setFirstRun(false);
                 console.log("Poll Logs");
-                getLogs();
-                getCustomerBookings();
-                getVendorTickets();
-                getTicketPool();
-                getStats();
+                updateValues();
 
                 if (divRef.current) {
                     divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -65,6 +61,14 @@ const SimulatorPage = () => {
           return () => clearInterval(interval);
 
     }, [runningSimulation, logs, firstRun, updateTime])
+
+    const updateValues = () => {
+        getLogs();
+        getCustomerBookings();
+        getVendorTickets();
+        getTicketPool();
+        getStats();
+    }
 
     const getLogs = async () => {
         //setRunningSimulation(true);
@@ -206,7 +210,6 @@ const SimulatorPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-
         if(inputs["totalTickets"]==null || inputs["totalTickets"]==''){
             alert("total tickets must have a value");
             return;
@@ -276,9 +279,11 @@ const SimulatorPage = () => {
             if(result=="Running"){
                 setTotalTickets(prevTotalTickets);
                 setMaxTicketCapacity(prevMaxTickets);
+                return;
             }
-            alert(result); // Handle the response
+            console.log(result); // Handle the response
             setRunningSimulation(false);
+            updateValues();// extra update to make sure the final log lines are not missed.
             
         } catch (error) {
             console.error("Error in hadnleStart request:", error);
@@ -405,7 +410,7 @@ const SimulatorPage = () => {
             </div>
             <div id="visualisationDiv">
                 <div id="customerVisual" className="visualElement">
-                    <h3>Customers</h3>
+                    <h3>50 Customers</h3>
                     <table>
                         <tr>
                             <th>Customer Name</th>
@@ -443,7 +448,7 @@ const SimulatorPage = () => {
                 </div>
 
                 <div id="vendorVisual" className="visualElement">
-                    <h3>Vendors</h3>
+                    <h3>50 Vendors</h3>
                     <table>
                         <tr>
                             <th>Vendor Name</th>

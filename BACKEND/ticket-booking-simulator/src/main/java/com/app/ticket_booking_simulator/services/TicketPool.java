@@ -33,10 +33,6 @@ public class TicketPool {
     private static final ReentrantLock ticketsListSizeLock = new ReentrantLock();
     // lock for the ticketPoolSize
 
-    /**
-     *
-     * @param ticket
-     */
     public static synchronized void createTicket(Ticket ticket){
         if(!SimulatorManager.isRunningSimulator()){// if the simulation has ended return
             return;
