@@ -24,7 +24,9 @@ public class SimulatorManager {
     private static final ReentrantLock vendorTicketLock = new ReentrantLock();
 
     private static HashMap<Integer, Integer> customerBookings = new HashMap<>();
+    // keeps track of how many tickets each customer has bought
     private static HashMap<Integer, Integer> vendorTickets = new HashMap<>();
+    // keeps track of how many tickets each vendor has added
 
     private static final ReentrantLock runningSimulationLock = new ReentrantLock();
     private static boolean runningSimulator = false;
@@ -33,17 +35,18 @@ public class SimulatorManager {
     public static void runSimulation(Configuration config){
 
 
-        setRunSimulationEnd(false);
+        setRunSimulationEnd(false);// indicating that the runSimulation method has finished running.
 
         TicketPool.setTotalTickets(config.getTotalTickets());
         TicketPool.setTicketReleaseRate(config.getTicketReleaseRate());
         TicketPool.setCustomerRetrievalRate(config.getCustomerRetrievalRate());
         TicketPool.setMaxTicketCapacity(config.getMaxTicketCapacity());
 
-        config.writeConfigToFile();
+        config.writeConfigToFile();// writes the configuration parameters to the configuration file
 
         int vendorDelayTime = 1000 / TicketPool.getTicketReleaseRate();
         int customerDelayTime = 1000 / TicketPool.getCustomerRetrievalRate();
+        // calculates the delay time for vendor and customer
 
         List<Thread> customers = new ArrayList<>();
         List<Thread> vendors = new ArrayList<>();
@@ -63,8 +66,8 @@ public class SimulatorManager {
         }
         LogManager.log("Vendors Started");
 
-        while(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()
-                && isRunningSimulator()){
+        while(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets() && isRunningSimulator()){
+            // waiting until all the tickets have been booked or the simulation is stopped manually
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
@@ -72,6 +75,7 @@ public class SimulatorManager {
             }
         }
         if(TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()){
+            // if all the tickets have not been booked then the program was stopped manually
             LogManager.log("Simulation was stopped");
         }
 
@@ -81,19 +85,21 @@ public class SimulatorManager {
             try {
                 vendors.get(i - 1).interrupt();
                 customers.get(i - 1).interrupt();
+                // terminating the threads
                 vendors.get(i - 1).join();
                 customers.get(i - 1).join();
+                // Joining the threads
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        stopSimulation();
+        stopSimulation();// stop the simulation.
 
         LogManager.log("Tickets in ticket pool: " + (TicketPool.getTicketsListSize()) );
         LogManager.log("Added Tickets Count: " + (TicketPool.getTicketCount()));
 
         LogManager.log("Booked tickets count: " + (TicketPool.getTicketBookedCount()));
-        setRunSimulationEnd(true);
+        setRunSimulationEnd(true);// indicating that the runSimulation method has finished running.
     }
 
     public static void initialise(){
@@ -140,14 +146,14 @@ public class SimulatorManager {
         }
     }
 
-    public static void initialiseCustomerBookings(){
+    public static void initialiseCustomerBookings(){ // setup the customer bookings HashMap
         customerBookings = new HashMap<>();
         for(int i=1; i<=vendor_customer_count; i++){
             customerBookings.put(i, 0);
         }
     }
 
-    public static void initialiseVendorTickets(){
+    public static void initialiseVendorTickets(){ // setup the vendor tickets HashMap
         vendorTickets = new HashMap<>();
         for(int i=1; i<=vendor_customer_count; i++){
             vendorTickets.put(i, 0);

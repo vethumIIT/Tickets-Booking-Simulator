@@ -1,5 +1,11 @@
 :root{
     --formInputWidth: 80%;
+    --formTextColor: black;
+    --formBackgroundColor: #cfcfcf;
+}
+
+body{
+    background-color:#ffffff;
 }
 
 #mainDiv{
@@ -13,9 +19,13 @@
     padding-top: 0;
 }
 
+#formDiv{
+    border: 2px solid;
+}
+
 #formDiv, #formDiv>form{
-    background-color: grey;
-    color: white;
+    background-color: var(--formBackgroundColor);
+    color: var(--formTextColor);
     margin: auto;
     margin-top: 20px;
     position:unset;
@@ -109,7 +119,7 @@
     flex-direction: row;
     width: 100%;
     height: 100%;
-    background-color: rgb(49, 46, 46);
+    background-color: rgb(83, 80, 80);
     overflow-x: clip;
     border-radius: 20px;
 }
@@ -188,32 +198,41 @@ select, form input{
     border-color: black;
 }
 
-select:focus, input:focus{
+select:focus, input[type="number"]:focus{
     border-color: aqua;
     outline: none;
     box-shadow: 0px 0px 3px 2px aqua;
 }
 
-form input[type="password"], input[type="text"], input[type="email"]{
+form input[type="number"]{
     padding-left: 10px;
 }
 
 form>input[type="Submit"], button#stop{
-    background-color: black;
+    background-color: #26a69a;
     color: white;
     transition: .2s;
     width: var(--formInputWidth);
     margin-top: 10px;
     border-radius: 10px;
-    border: 2px solid;
+    border: 0px solid;
     border-color: black;
     border-radius: 10px;
     width: var(--formInputWidth);
     height: 35px;
 }
 
+form>input[type="Submit"]{
+    background-color: #26a69a;
+}
+
 button#stop{
     width: 72%;
+    background-color: #e53935;
+}
+
+button#stop:hover{
+    background-color: #be2b2b;
 }
 
 form>input[type="Submit"]:focus, button#stop:focus{
@@ -222,14 +241,13 @@ form>input[type="Submit"]:focus, button#stop:focus{
 
 }
 
-form input[type="Submit"]:hover, button#stop:hover{
-    background-color: white;
-    color: black;
+form input[type="Submit"]:hover{
+    background-color: #1e867e;
 }
 
 form label{
     width: var(--formInputWidth);
-    color: white;
+    color: var(--formTextColor);
     margin: auto;
     margin-top: 0px;
     vertical-align: middle;

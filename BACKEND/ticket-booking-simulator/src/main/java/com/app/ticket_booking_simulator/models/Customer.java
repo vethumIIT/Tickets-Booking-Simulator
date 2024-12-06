@@ -18,8 +18,7 @@ public class Customer implements Runnable{
         while (TicketPool.getTicketBookedCount()<TicketPool.getTotalTickets()
                 && SimulatorManager.isRunningSimulator()
                 && !Thread.interrupted()
-        ){
-            //System.out.println("customer "+id+" is waiting.");
+        ){// if all the tickets have not been booked, the simulation is manually stopped or the thread has not been interrupted
             TicketPool.bookTicket(this.getId());
             try {
                 Thread.sleep(delayTime);

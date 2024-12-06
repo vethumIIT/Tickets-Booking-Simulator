@@ -1,5 +1,12 @@
 package com.app.ticket_booking_simulator.repository;
 
+/*
+ *
+ * The xerial dependency from https://github.com/xerial/sqlite-jdbc was used
+ * for the SQLite database management.
+ *
+ * */
+
 import com.app.ticket_booking_simulator.services.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

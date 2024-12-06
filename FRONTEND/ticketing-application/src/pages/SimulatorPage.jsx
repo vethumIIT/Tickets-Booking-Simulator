@@ -39,8 +39,10 @@ const SimulatorPage = () => {
         }else{
             setUpdateTime(1000);
         }
-        
         const interval = setInterval(() => { // Update state every second
+            
+            checkRunning();
+
             
             if(runningSimulation==true || firstRun==true){
                 setFirstRun(false);
@@ -50,7 +52,6 @@ const SimulatorPage = () => {
                 getVendorTickets();
                 getTicketPool();
                 getStats();
-                checkRunning();
 
                 if (divRef.current) {
                     divRef.current.scrollTop = divRef.current.scrollHeight;
@@ -136,7 +137,6 @@ const SimulatorPage = () => {
             if (result){
                 setCustomerBookings(result);
             }
-            //console.log("customerBookings: ",result);
             
         } catch (error) {
             console.error("Error in getCustomerBookings request:", error);
@@ -208,34 +208,34 @@ const SimulatorPage = () => {
 
 
         if(inputs["totalTickets"]==null || inputs["totalTickets"]==''){
-            console.log("total tickets must have a value");
+            alert("total tickets must have a value");
             return;
         }else if(inputs["ticketReleaseRate"]==null || inputs["ticketReleaseRate"]==''){
-            console.log("ticket release rate must have a value");
+            alert("ticket release rate must have a value");
             return;
         }else if(inputs["customerRetrievalRate"]==null || inputs["customerRetrievalRate"]==''){
-            console.log("customer retrieval rate must have a value");
+            alert("customer retrieval rate must have a value");
             return;
         }else if(inputs["maxTicketCapacity"]==null || inputs["maxTicketCapacity"]==''){
-            console.log("maximum ticket capacity must have a value");
+            alert("maximum ticket capacity must have a value");
             return;
         }
 
         if(inputs["totalTickets"]<1){
-            console.log("totalTickets must be 1 or higher");
+            alert("totalTickets must be 1 or higher");
             return;
         }if(inputs["ticketReleaseRate"]<1){
-            console.log("Ticket Release Rate must be 1 or higher");
+            alert("Ticket Release Rate must be 1 or higher");
             return;
         }if(inputs["customerRetrievalRate"]<1){
-            console.log("Customer Retrieval Rate must be 1 or higher");
+            alert("Customer Retrieval Rate must be 1 or higher");
             return;
         }if(inputs["maxTicketCapacity"]<1){
-            console.log("max ticket capacity must be 1 or higher");
+            alert("max ticket capacity must be 1 or higher");
             return;
         }
 
-        alert("All values are valid!");
+        console.log("All values are valid!");
 
         const data = {
             "totalTickets":inputs["totalTickets"],
@@ -301,7 +301,7 @@ const SimulatorPage = () => {
             }
 
             const result = await response.text(); // Parse the response
-            alert(result); // Handle the response
+            console.log(result); // Handle the response
         } catch (error) {
             console.error("Error in handleStop request:", error);
         }

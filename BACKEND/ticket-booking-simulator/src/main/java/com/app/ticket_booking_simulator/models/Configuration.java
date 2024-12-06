@@ -20,15 +20,6 @@ public class Configuration {
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
-    public void configure(){
-        TicketPool.setTotalTickets(this.totalTickets);
-        TicketPool.setTicketReleaseRate(this.ticketReleaseRate);
-        TicketPool.setCustomerRetrievalRate(this.customerRetrievalRate);
-        TicketPool.setMaxTicketCapacity(this.maxTicketCapacity);
-
-        writeConfigToFile();
-    }
-
     public boolean isValid(){
         if(this.totalTickets<1 || ticketReleaseRate<1 || customerRetrievalRate<1 || maxTicketCapacity<1){
             return false;

@@ -23,7 +23,7 @@ public class TicketingApplicationCLI {
 
     public static int getIntInput(String promptText){
         boolean validValue = false;
-        int returnValue = -1;
+        int returnValue = 0;
         while(!validValue) {
             try {
                 System.out.print(promptText);

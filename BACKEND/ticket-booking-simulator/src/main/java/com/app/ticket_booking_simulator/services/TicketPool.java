@@ -33,16 +33,20 @@ public class TicketPool {
     private static final ReentrantLock ticketsListSizeLock = new ReentrantLock();
     // lock for the ticketPoolSize
 
+    /**
+     *
+     * @param ticket
+     */
     public static synchronized void createTicket(Ticket ticket){
         if(!SimulatorManager.isRunningSimulator()){// if the simulation has ended return
             return;
-        } else if(getTicketsListSize()>=getMaxTicketCapacity()
-        ){
+        } else if(getTicketsListSize()>=getMaxTicketCapacity()){
+            // do not add ticket if max ticket capacity is reached.
             LogManager.log("Maximum Ticket Capacity Reached Please wait Vendor "+ticket.getVendorId());
             return;
         } else {
 
-            lock.lock();
+            lock.lock();// using reentrant lock before adding tickets
             try {
                 if (getTicketCount() >= getTotalTickets()) {
                     LogManager.log("Total Ticket Count Reached! no more tickets can be added.");
@@ -54,20 +58,22 @@ public class TicketPool {
                 changeTicketsListSize(1);
 
 
-                List<Object> parameters = new ArrayList<>();
+                List<Object> parameters = new ArrayList<>();// setting the parameters for the database instruction.
                 parameters.add(ticket.getTicketId());
                 parameters.add(ticket.getVendorId());
 
                 db.writeDatabase("INSERT INTO tickets (id, customer_id, vendor_id, isAvailable) VALUES (?, 0, ?, 1)", parameters);
+                // create the record for the ticket and set it as not booked.
 
                 SimulatorManager.recordVendorTicket(ticket.getVendorId());
+                // update the vendorTickets list in SimulatorManager
 
-                setTicketCount(getTicketCount() + 1);
+                setTicketCount(getTicketCount() + 1); // increment ticketCount
                 LogManager.log("Vendor " + ticket.getVendorId() + " added ticket no " + getTicketCount());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             } finally {
-                lock.unlock();
+                lock.unlock();// unlock the lock
             }
         }
 
@@ -75,29 +81,25 @@ public class TicketPool {
 
     public static synchronized void bookTicket(int customerId){
         if(!SimulatorManager.isRunningSimulator()){
+            // do not book ticket if the simulation has stopped.
             return;
         }
         lock.lock();
         try{
-            /*try {
-                Thread.sleep(1000*0/getCustomerRetrievalRate());
-            } catch (InterruptedException e) {
-                return;
-            }*/
 
-            if (getTicketBookedCount()>=totalTickets){
+            if (getTicketBookedCount()>=totalTickets){ // cannot book ticket if all the tickets are booked.
                 LogManager.log("Sorry customer "+customerId+" reached total tickets tickets at "+(getTicketBookedCount()+1)+" tickets");
                 return;
-            }else if (getTicketCount()==0){
+            }else if (getTicketCount()==0){// cannot book ticket if no tickets have been added yet.
                 LogManager.log("No Tickets Available yet for customer "+customerId);
                 return;
-            } else if (ticketsList.isEmpty()) {
+            } else if (ticketsList.isEmpty()) {// cannot buy ticket if ticketPool is empty
                 LogManager.log("No tickets Available to book for customer "+customerId);
                 return;
             } else{
                 Ticket booking_ticket = ticketsList.get(0);
 
-                ticketsList.remove(0);
+                ticketsList.remove(0);// removing ticket from ticket pool
                 changeTicketsListSize(-1);
 
                 List<Object> parameters = new ArrayList<>();
@@ -151,7 +153,7 @@ public class TicketPool {
         TicketPool.ticketsListSize += changeValue;
     }
 
-    public static String getStatus(){
+    public static String getStatus(){ // creates a json string to represent the stats
 
         Map<String, Integer> map = new HashMap<>();
 

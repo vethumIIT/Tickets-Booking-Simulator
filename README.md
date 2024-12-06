@@ -16,7 +16,7 @@ This Ticket Booking Simulator is a multi-threaded Application that simulates a r
 
 - `Node JS - v22.11.0` or later
 
-- `Intellij IDEA Community Edition`
+- `Intellij IDEA IDE`
 
 ### 2. How to run the application
 
@@ -46,13 +46,13 @@ To use this application you have 2 options
 
 #### 2. Get the Frontend Running (`ReactJS`)
 
-1. Step 1 Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
+1. **Step 1**: Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
 
-2. Step 2: Open `Command Prompt` in the relavent folder
+2. **Step 2**: Open `Command Prompt` in the relavent folder
 
-3. Step 3: Type the command `npm install` to install the dependencies.
+3. **Step 3**: Type the command `npm install` to install the dependencies.
 
-4. Step 4: Now type the command `npm run dev`, and the react app will start running.
+4. **Step 4**: Now type the command `npm run dev`, and the react app will start running.
 
 5. Now you have the frontend running. To access it  open your browser and enter `http://localhost:5173/` in your address bar.
 
@@ -112,9 +112,6 @@ Once the Simulation ends the following information will be displayed on the scre
     Added Tickets Count: 100
     Booked tickets count: 100
 
-
-### 2. Web Application.
+### 2. Web Application
 
 Once you have the `React` Application and the `Spring Boot` application running, open your browser and go to `http://localhost:5173/`.
-
-

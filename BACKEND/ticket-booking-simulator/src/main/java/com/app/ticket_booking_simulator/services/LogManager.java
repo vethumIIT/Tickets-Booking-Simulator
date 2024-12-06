@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogManager {
-    private static List<String> logs = new ArrayList<>();
+    private static List<String> logs = new ArrayList<>();// list containing all the logs
 
     private static String filename = "DataFiles/Logs.txt";
 
@@ -26,7 +26,7 @@ public class LogManager {
         System.out.println(text);
     }
 
-    public static void writeToFile(String log){
+    public static void writeToFile(String log){ // writes a log to log file
         try(FileWriter writer = new FileWriter(filename, true)){
             writer.write(log+"\n");
         } catch (IOException e) {
@@ -34,7 +34,7 @@ public class LogManager {
         }
     }
 
-    public static void clearLogFile(){
+    public static void clearLogFile(){// creates or clears log file
         try(FileWriter writer = new FileWriter(filename)){
             writer.write("");
         } catch (IOException e) {

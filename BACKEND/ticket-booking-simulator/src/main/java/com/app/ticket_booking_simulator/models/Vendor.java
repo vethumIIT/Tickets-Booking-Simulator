@@ -17,7 +17,7 @@ public class Vendor implements Runnable{
         while (TicketPool.getTicketCount()<TicketPool.getTotalTickets()
                 && SimulatorManager.isRunningSimulator()
                 && !Thread.interrupted()
-        ){
+        ){// if all the tickets have not been added, the simulation is manually stopped or the thread has not been interrupted
             TicketPool.createTicket(new Ticket(this.getId()));
             try {
                 Thread.sleep(delayTime);

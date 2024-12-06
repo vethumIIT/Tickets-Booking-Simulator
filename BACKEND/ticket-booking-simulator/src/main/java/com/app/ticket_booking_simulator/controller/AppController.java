@@ -33,15 +33,9 @@ public class AppController {
             return ResponseEntity.ok("Running");
         }
 
-        /*for (String log: LogManager.getLogs()){
-            System.out.println(log);
-        }*/
         System.out.println(LogManager.getLogs().size());
 
-        //System.out.println("Stopping");
-        //while(!SimulatorManager.isRunSimulationEnd()){}
-
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok("Ended");
     }
 
     @RequestMapping("/api/get_logs")
