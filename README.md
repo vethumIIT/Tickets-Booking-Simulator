@@ -133,7 +133,9 @@ Below both of these is the *Stats* Pannel, which shows you the live statistics a
 At the top of this section you will see 3 values displaying,
 
 1. The number of tickets added by the vendors, out of the `total tickets`.
+
 2. The number of tickets purchased by the customers, out of the `total tickets`.
+
 3. The number of tickets that are currently in the ticket pool out of the `maximum ticket capacity`.
 
 Below this you can see 3 tabs labeled Customers, Ticket Pool and Vendors.
@@ -149,7 +151,9 @@ The Vendors tab shows displays each vendor and how many tickets they have added 
 The data files are located in the `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND/ticket-booking-simulator/DataFiles` folder. Described below are the files in the DataFiles folder and what data they have.
 
 1. **`Logs.txt`**: This file contains the logs for the last simulation you ran on either the CLI or the Web Application.
+
 2. **`configs.txt`**: This file contains the 4 configuration values in json format for the last run simulation.
+
 3. **`database.db`**: This database file contains the SQLite database containing informaion about all the tickets that were added to the ticket pool in the last simulation run. This database stores information of each ticket such as the ticket id, vendor id, customer id and whether the ticket was booked or not.
 
 *Note that the DataFiles folder will be empty when you first download the project files, and will only be available after you run the first simulation.*
