@@ -36,17 +36,17 @@ To use this application you have 2 options
 
 #### 1. Get the Backend Running (`Spring Boot`)
 
-1. Step 1 Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\BACKEND`
+1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
-3. Step 3: In `Intellij IDEA` and locate the file `<Your project file location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketBookingSimApp.java` and run that file.
+3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketBookingSimApp.java` and run that file.
 
 4. Now you have the backend running.
 
 #### 2. Get the Frontend Running (`ReactJS`)
 
-1. **Step 1**: Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
+1. **Step 1**: Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
 
 2. **Step 2**: Open `Command Prompt` in the relavent folder
 
@@ -58,11 +58,11 @@ To use this application you have 2 options
 
 ### 2. CLI (Option)
 
-1. Step 1 Go to the following folder.`<Your Project file Location>\Tickets-Booking-Simulator\BACKEND`
+1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
-3. Step 3: In `Intellij IDEA` and locate the file `<Your project file location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketingApplicationCLI.java` and run that file.
+3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketingApplicationCLI.java` and run that file.
 
 
 ## How to use the application
@@ -115,3 +115,41 @@ Once the Simulation ends the following information will be displayed on the scre
 ### 2. Web Application
 
 Once you have the `React` Application and the `Spring Boot` application running, open your browser and go to `http://localhost:5173/`.
+
+After the page loads you will be shown the main page for the Web Application shown below.
+(***Note**: The following screenshot is a full page screenshot. Only half of the page can be seen at once in the actual Page*)
+
+![Screenshot of the Dahsboard of the Web Application](Screenshot.png)
+*Figure 1: Screenshot of the Dahsboard of the Web Application*
+
+The **Configuration** panel has 4 number inputs that will allow you to enter the 4 configurable values for the simulation.
+
+Below them are the start and stop buttons that allow you to start the simulation and stop the simulation.
+
+Towards the right of the configuration panel is the **log display**. This shows you the simulation logs you would see the live logs you would see when you run the CLI, and will display logs in real time.
+
+Below both of these is the *Stats* Pannel, which shows you the live statistics and graphics used to represent the simulation process.
+
+At the top of this section you will see 3 values displaying,
+
+1. The number of tickets added by the vendors, out of the `total tickets`.
+2. The number of tickets purchased by the customers, out of the `total tickets`.
+3. The number of tickets that are currently in the ticket pool out of the `maximum ticket capacity`.
+
+Below this you can see 3 tabs labeled Customers, Ticket Pool and Vendors.
+
+The Customers tab displays each cusomer and how many tickets each of them has bought in real time.
+
+The Ticket Pool tab shows the tickets with their ticket number as they enter and exit the ticket pool in real time.
+
+The Vendors tab shows displays each vendor and how many tickets they have added to the Ticket Pool in real time.
+
+## Data Files
+
+The data files are located in the `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND/ticket-booking-simulator/DataFiles` folder. Described below are the files in the DataFiles folder and what data they have.
+
+1. **`Logs.txt`**: This file contains the logs for the last simulation you ran on either the CLI or the Web Application.
+2. **`configs.txt`**: This file contains the 4 configuration values in json format for the last run simulation.
+3. **`database.db`**: This database file contains the SQLite database containing informaion about all the tickets that were added to the ticket pool in the last simulation run. This database stores information of each ticket such as the ticket id, vendor id, customer id and whether the ticket was booked or not.
+
+*Note that the DataFiles folder will be empty when you first download the project files, and will only be available after you run the first simulation.*

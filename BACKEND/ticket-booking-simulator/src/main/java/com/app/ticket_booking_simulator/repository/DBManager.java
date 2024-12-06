@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class DBManager {
     private static final Logger logger = LoggerFactory.getLogger(DBManager.class);
-    private String url = "jdbc:sqlite:DataFiles/mydatabase.db";
+    private String url = "jdbc:sqlite:DataFiles/database.db";
 
     public DBManager(){}
 
