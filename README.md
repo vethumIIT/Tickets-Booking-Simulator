@@ -32,9 +32,9 @@ To use this application you have 2 options
 1. Run the **Web Application**. For this you need to run the `Spring Boot` application and the `React` Application. You can use this method for a better user experience. with real time statistics and beautiful user interface.
 2. Run the **CLI (Command Line Interface)** application to take your inputs and run the application that way.
 
-### 1. Web Application
+#### 1. Web Application
 
-#### 1. Get the Backend Running (`Spring Boot`)
+##### 1. Get the Backend Running (`Spring Boot`)
 
 1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
 
@@ -44,7 +44,7 @@ To use this application you have 2 options
 
 4. Now you have the backend running.
 
-#### 2. Get the Frontend Running (`ReactJS`)
+##### 2. Get the Frontend Running (`ReactJS`)
 
 1. **Step 1**: Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
 
@@ -56,14 +56,13 @@ To use this application you have 2 options
 
 5. Now you have the frontend running. To access it  open your browser and enter `http://localhost:5173/` in your address bar.
 
-### 2. CLI (Option)
+#### 2. CLI (Option)
 
 1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
 3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketingApplicationCLI.java` and run that file.
-
 
 ## How to use the application
 
