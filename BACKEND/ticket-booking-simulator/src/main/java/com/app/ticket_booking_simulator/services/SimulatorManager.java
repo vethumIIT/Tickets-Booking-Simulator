@@ -107,6 +107,7 @@ public class SimulatorManager {
         LogManager.log("Added Tickets Count: " + (TicketPool.getTicketCount()));
 
         LogManager.log("Booked tickets count: " + (TicketPool.getTicketBookedCount()));
+        LogManager.writeToFile();
         setRunSimulationEnd(true);
         // indicating that the runSimulation method itself has finished running.
         // If this is false that means the simulation has been stopped or ended AND that

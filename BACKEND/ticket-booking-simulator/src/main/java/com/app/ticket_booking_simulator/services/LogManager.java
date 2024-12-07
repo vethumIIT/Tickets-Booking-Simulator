@@ -22,13 +22,14 @@ public class LogManager {
 
     public static void log(String text){
         logs.add(text);
-        writeToFile(text);
         System.out.println(text);
     }
 
-    public static void writeToFile(String log){ // writes a log to log file
-        try(FileWriter writer = new FileWriter(filename, true)){
-            writer.write(log+"\n");
+    public static void writeToFile(){ // writes a log to log file
+        try(FileWriter writer = new FileWriter(filename)){
+            for(String log: getLogs()) {
+                writer.write(log + "\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
