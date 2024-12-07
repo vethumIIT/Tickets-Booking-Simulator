@@ -88,7 +88,6 @@ const SimulatorPage = () => {
 
             const result = await response.json(); // Parse the response
             if (result) {
-                //console.log("Result: ",result);
                 setLogs(result);
             }
             
@@ -191,7 +190,6 @@ const SimulatorPage = () => {
 
             const result = await response.json(); // Parse the response
             if (result){
-                //console.log("Result: ",result);
                 setTicketPool(result);
             }
 

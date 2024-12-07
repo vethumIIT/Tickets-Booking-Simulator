@@ -137,13 +137,7 @@ At the top of this section you will see 3 values displaying,
 
 3. The number of tickets that are currently in the ticket pool out of the `maximum ticket capacity`.
 
-Below this you can see 3 tabs labeled Customers, Ticket Pool and Vendors.
-
-The Customers tab displays each cusomer and how many tickets each of them has bought in real time.
-
-The Ticket Pool tab shows the tickets with their ticket number as they enter and exit the ticket pool in real time.
-
-The Vendors tab shows displays each vendor and how many tickets they have added to the Ticket Pool in real time.
+Below this you can see 3 tabs labeled Customers, Ticket Pool and Vendors. The Customers tab displays each cusomer and how many tickets each of them has bought in real time. The Ticket Pool tab shows the tickets with their ticket number as they enter and exit the ticket pool in real time. The Vendors tab shows displays each vendor and how many tickets they have added to the Ticket Pool in real time.
 
 ## Data Files
 
