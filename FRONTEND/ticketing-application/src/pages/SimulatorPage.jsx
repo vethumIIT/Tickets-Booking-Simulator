@@ -49,9 +49,7 @@ const SimulatorPage = () => {
                 console.log("Poll Logs");
                 updateValues();
 
-                if (divRef.current) {
-                    divRef.current.scrollTop = divRef.current.scrollHeight;
-                }
+                
             }else{
                 console.log("update");
             }
@@ -68,6 +66,9 @@ const SimulatorPage = () => {
         getVendorTickets();
         getTicketPool();
         getStats();
+        if (divRef.current) {
+            divRef.current.scrollTop = divRef.current.scrollHeight;
+        }
     }
 
     const getLogs = async () => {

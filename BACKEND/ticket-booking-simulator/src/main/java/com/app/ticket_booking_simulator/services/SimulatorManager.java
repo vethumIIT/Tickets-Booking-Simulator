@@ -30,6 +30,10 @@ public class SimulatorManager {
 
     private static final ReentrantLock runningSimulationLock = new ReentrantLock();
     private static boolean runningSimulator = false;
+    // while the simulation is running (multiple vendor and customer
+    // threads are adding and removing tickets to and from the ticket pool) this will be set to true.
+    // if it is set to false, that means the vendors and customers need to stop running and they are
+    // not allowed to make changes to the ticket pool.
 
 
     public static void runSimulation(Configuration config){
@@ -51,6 +55,8 @@ public class SimulatorManager {
         List<Thread> customers = new ArrayList<>();
         List<Thread> vendors = new ArrayList<>();
         startRunningSimulator();
+        // sets runningSimulator to true which allows the vendor threads
+        // to run and make changes to the ticket pool
 
         initialise();
 
@@ -79,7 +85,9 @@ public class SimulatorManager {
             LogManager.log("Simulation was stopped");
         }
 
-
+        stopSimulation();
+        // sets runningSimulator to false stopping the
+        // customers and vendors from trying to write to the ticket pool
         System.out.println("Joining Threads");
         for (int i = 1; i <= vendor_customer_count; i++) {
             try {
@@ -93,13 +101,16 @@ public class SimulatorManager {
                 throw new RuntimeException(e);
             }
         }
-        stopSimulation();// stop the simulation.
+
 
         LogManager.log("Tickets in ticket pool: " + (TicketPool.getTicketsListSize()) );
         LogManager.log("Added Tickets Count: " + (TicketPool.getTicketCount()));
 
         LogManager.log("Booked tickets count: " + (TicketPool.getTicketBookedCount()));
-        setRunSimulationEnd(true);// indicating that the runSimulation method has finished running.
+        setRunSimulationEnd(true);
+        // indicating that the runSimulation method itself has finished running.
+        // If this is false that means the simulation has been stopped or ended AND that
+        // the summary has also been added to the logs.
     }
 
     public static void initialise(){
