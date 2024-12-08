@@ -153,9 +153,9 @@ public class TicketPool {
 
         Map<String, Integer> map = new HashMap<>();
 
-        map.put("ticketBookedCount", getTicketBookedCount());
-        map.put("ticketCount", getTicketCount());
-        map.put("ticketListSize", getTicketsListSize());
+        map.put("ticketBookedCount", ticketBookedCount);
+        map.put("ticketCount", ticketCount);
+        map.put("ticketListSize", ticketsListSize);
 
         map.put("totalTickets", getTotalTickets());
         map.put("ticketReleaseRate", getTicketReleaseRate());

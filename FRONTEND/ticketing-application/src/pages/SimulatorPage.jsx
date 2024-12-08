@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import "./form.css"
+import "./SimulatorPage.css"
 
 
 const SimulatorPage = () => {

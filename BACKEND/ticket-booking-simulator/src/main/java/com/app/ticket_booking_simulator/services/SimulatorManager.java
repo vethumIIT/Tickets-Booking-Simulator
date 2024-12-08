@@ -88,7 +88,7 @@ public class SimulatorManager {
         stopSimulation();
         // sets runningSimulator to false stopping the
         // customers and vendors from trying to write to the ticket pool
-        System.out.println("Joining Threads");
+        LogManager.log("Terminating Threads");
         for (int i = 1; i <= vendor_customer_count; i++) {
             try {
                 vendors.get(i - 1).interrupt();
@@ -217,6 +217,10 @@ public class SimulatorManager {
         } finally {
             runSimulationEndLock.unlock();
         }
+    }
+
+    public static boolean asyncIsRunSimulationEnd() {
+            return runSimulationEnd;
     }
 
     public static void setRunSimulationEnd(boolean runSimulationEnd) {

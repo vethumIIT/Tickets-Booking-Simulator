@@ -107,6 +107,7 @@ Once the Simulation ends the following information will be displayed on the scre
 
     ...
     Total Ticket Count Reached! no more tickets can be added.
+    Terminating Threads
     Tickets in ticket pool: 0
     Added Tickets Count: 100
     Booked tickets count: 100

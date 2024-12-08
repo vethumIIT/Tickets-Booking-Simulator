@@ -61,14 +61,14 @@ public class AppController {
     @RequestMapping("/api/stop")
     public ResponseEntity<String> stopSimulation(){
         SimulatorManager.stopSimulation();// stopping the threads an blocking additional changes to ticket pool
-        while(!SimulatorManager.isRunSimulationEnd()){/*System.out.println("stopping");*/}
+        while(!SimulatorManager.asyncIsRunSimulationEnd()){/*wait until the simulation has stopped*/}
         // waiting for the runSimulation method to finish running.
         return ResponseEntity.ok("Stopped");
     }
 
     @RequestMapping("/api/is_running")
     public ResponseEntity<String> isRunning(){
-        boolean simIsRunning = SimulatorManager.isRunSimulationEnd();
+        boolean simIsRunning = SimulatorManager.asyncIsRunSimulationEnd();
         // check if the runSimulation method is running.
         return ResponseEntity.ok(String.valueOf(!simIsRunning));
     }
