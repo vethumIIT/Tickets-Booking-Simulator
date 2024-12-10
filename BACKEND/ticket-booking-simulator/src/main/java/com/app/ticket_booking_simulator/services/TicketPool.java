@@ -28,7 +28,7 @@ public class TicketPool {
     private static final ReentrantLock ticketCountLock = new ReentrantLock();
     // lock for the ticket count
 
-    private static List<Ticket> ticketsList = new ArrayList<>();// list where the added tickets are stored.
+    private static List<Ticket> ticketsList = Collections.synchronizedList(new ArrayList<>());// list where the added tickets are stored.
     private static DBManager db = new DBManager();
     // database manager object which contains the database related functions
 
