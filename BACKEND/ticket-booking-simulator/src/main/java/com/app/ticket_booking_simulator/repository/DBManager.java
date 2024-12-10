@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class manages reading and writing to the database.
+ */
 public class DBManager {
     private static final Logger logger = LoggerFactory.getLogger(DBManager.class);
     private String url = "jdbc:sqlite:DataFiles/database.db";
@@ -28,6 +31,12 @@ public class DBManager {
         this.url=url;
     }
 
+    /**
+     * Writes data to the database.
+     * @param SQLCommand
+     * @param parameters - parameters for the SQL Statement in a List format.
+     * @return status of the read.
+     */
     public String writeDatabase(String SQLCommand, List<Object> parameters){
         try{
             Class.forName("org.sqlite.JDBC");
@@ -73,6 +82,12 @@ public class DBManager {
         }
     }
 
+    /**
+     * Reads data from the database.
+     * @param SQLCommand sql command
+     * @param parameters parameters for the SQL Statement in a List format.
+     * @return Resulting Records in a HashMap.
+     */
     public List<Map<String,Object>> readDatabase(String SQLCommand, List<Object> parameters){
         List<Map<String, Object>> resultList = new ArrayList<>();
         try{
@@ -128,6 +143,9 @@ public class DBManager {
         return resultList;
     }
 
+    /**
+     * Setup the database
+     */
     public void setup(){
         Connection c;
         Statement stmt;

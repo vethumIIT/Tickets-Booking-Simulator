@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-
+/**
+ * Manages the running of the simulation including Creating the vendor and customer threads etc.
+ */
 public class SimulatorManager {
     private static DBManager db = new DBManager();
 
@@ -36,6 +38,10 @@ public class SimulatorManager {
     // not allowed to make changes to the ticket pool.
 
 
+    /**
+     * Starts running the simulation.
+     * @param config config object with values
+     */
     public static void runSimulation(Configuration config){
 
 
@@ -114,6 +120,9 @@ public class SimulatorManager {
         // the summary has also been added to the logs.
     }
 
+    /**
+     *
+     */
     public static void initialise(){
         db.setup();
         LogManager.clearLogs();
@@ -122,6 +131,9 @@ public class SimulatorManager {
         initialiseVendorTickets();
     }
 
+    /**
+     * set runningSimulator flag to false.(and stops the program in the process)
+     */
     public static void stopSimulation(){
         runningSimulationLock.lock();
         try {
@@ -134,6 +146,9 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     * Set the runningSimulator flag to true.
+     */
     public static void startRunningSimulator(){
         runningSimulationLock.lock();
         try {
@@ -146,6 +161,10 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     * check if the simulation.
+     * @return runningSimulator
+     */
     public static boolean isRunningSimulator(){
         runningSimulationLock.lock();
         try {
@@ -158,6 +177,9 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     *
+     */
     public static void initialiseCustomerBookings(){ // setup the customer bookings HashMap
         customerBookings = new HashMap<>();
         for(int i=1; i<=vendor_customer_count; i++){
@@ -165,6 +187,9 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     *
+     */
     public static void initialiseVendorTickets(){ // setup the vendor tickets HashMap
         vendorTickets = new HashMap<>();
         for(int i=1; i<=vendor_customer_count; i++){
@@ -173,6 +198,10 @@ public class SimulatorManager {
 
     }
 
+    /**
+     *
+     * @param id customer id
+     */
     public static void recordCustomerBooking(int id){
         customerBookingLock.lock();
         try {
@@ -184,9 +213,12 @@ public class SimulatorManager {
         finally {
             customerBookingLock.unlock();
         }
-
     }
 
+    /**
+     *
+     * @param id vendor id
+     */
     public static void recordVendorTicket(int id){
         vendorTicketLock.lock();
         try {
@@ -200,14 +232,26 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     *
+     * @return customerBookings List
+     */
     public static HashMap<Integer, Integer> getCustomerBookings() {
         return customerBookings;
     }
 
+    /**
+     *
+     * @return vendorTickets List
+     */
     public static HashMap<Integer, Integer> getVendorTickets() {
         return vendorTickets;
     }
 
+    /**
+     *
+     * @return runSimulationEnd
+     */
     public static boolean isRunSimulationEnd() {
         runSimulationEndLock.lock();
         try {
@@ -219,10 +263,18 @@ public class SimulatorManager {
         }
     }
 
+    /**
+     * check if runSimulationEnd function is still running asynchronously without creating a lock.
+     * @return runSimulationEnd
+     */
     public static boolean asyncIsRunSimulationEnd() {
             return runSimulationEnd;
     }
 
+    /**
+     * set that run simulation has ended.
+     * @param runSimulationEnd value to set runSimulationEnd to
+     */
     public static void setRunSimulationEnd(boolean runSimulationEnd) {
         runSimulationEndLock.lock();
         try {

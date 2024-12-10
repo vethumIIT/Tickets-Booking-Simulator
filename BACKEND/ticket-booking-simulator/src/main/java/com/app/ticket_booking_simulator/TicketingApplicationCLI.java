@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 public class TicketingApplicationCLI {
     private static Scanner input = new Scanner(System.in);
+
+    /**
+     * main class function.
+     * @param args
+     */
     public static void main(String[] args){
 
         int totalTickets = getIntInput("Enter total tickets: ");
@@ -21,6 +26,11 @@ public class TicketingApplicationCLI {
         SimulatorManager.runSimulation(config);
     }
 
+    /**
+     * Prompts, gets and validates the input.
+     * @param promptText - The text to be displayed as the prompt.
+     * @return - Integer with the relevant value.
+     */
     public static int getIntInput(String promptText){
         boolean validValue = false;
         int returnValue = 0;

@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ *
+ */
 public class TicketPool {
 
     private static final ReentrantLock lock = new ReentrantLock();
@@ -33,6 +36,10 @@ public class TicketPool {
     private static final ReentrantLock ticketsListSizeLock = new ReentrantLock();
     // lock for the ticketPoolSize
 
+    /**
+     * Adds ticket to the Ticket Pool and the database.
+     * @param ticket
+     */
     public static synchronized void createTicket(Ticket ticket){
         if(!SimulatorManager.isRunningSimulator()){// if the simulation has ended return
             return;
@@ -75,6 +82,9 @@ public class TicketPool {
 
     }
 
+    /**
+     * Removes ticket from the Ticket Pool and records the booking in the database.
+     */
     public static synchronized void bookTicket(int customerId){
         if(!SimulatorManager.isRunningSimulator()){
             // do not book ticket if the simulation has stopped.
@@ -121,6 +131,10 @@ public class TicketPool {
 
     }
 
+    /**
+     *
+     * @return number of tickets in the ticket pool
+     */
     public static int getTicketsListSize() {
         lock.lock();
         try {
@@ -133,6 +147,10 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @param ticketsListSize value to set
+     */
     public static void setTicketsListSize(int ticketsListSize) {
         lock.lock();
         try {
@@ -145,11 +163,19 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @param changeValue value to set
+     */
     public static void changeTicketsListSize(int changeValue) {
         TicketPool.ticketsListSize += changeValue;
     }
 
-    public static String getStatus(){ // creates a json string to represent the stats
+    /**
+     * creates a json string to represent the stats
+     * @return JSON String for the application.
+     */
+    public static String getStatus(){
 
         Map<String, Integer> map = new HashMap<>();
 
@@ -168,6 +194,9 @@ public class TicketPool {
         return gson.toJson(map);
     }
 
+    /**
+     *
+     */
     public static void resetTicketPool(){
         setTicketBookedCount(0);
         setTicketCount(0);
@@ -176,6 +205,10 @@ public class TicketPool {
     }
 
 
+    /**
+     *
+     * @return ticketsList
+     */
     public static List<Ticket> getTicketsList() {
         lock.lock();
         try {
@@ -187,10 +220,17 @@ public class TicketPool {
         }
     }
 
+    /**
+     * get tickets list without invoking the lock and interrupting the program (user for external access).
+     * @return ticketsList
+     */
     public static List<Ticket> getAsyncTicketsList() {
         return ticketsList;
     }
 
+    /**
+     * clears the tickets in the Ticket Pool
+     */
     public static void clearTicketsList() {
         lock.lock();
         try {
@@ -202,38 +242,74 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @param totalTickets value to set
+     */
     public static void setTotalTickets(int totalTickets) {
         TicketPool.totalTickets = totalTickets;
     }
 
+    /**
+     *
+     * @return ticketReleaseRate
+     */
     public static int getTicketReleaseRate() {
         return ticketReleaseRate;
     }
 
+    /**
+     *
+     * @param ticketReleaseRate value to set
+     */
     public static void setTicketReleaseRate(int ticketReleaseRate) {
         TicketPool.ticketReleaseRate = ticketReleaseRate;
     }
 
+    /**
+     *
+     * @return customerRetrievalRate
+     */
     public static int getCustomerRetrievalRate() {
         return customerRetrievalRate;
     }
 
+    /**
+     *
+     * @param customerRetrievalRate value to set
+     */
     public static void setCustomerRetrievalRate(int customerRetrievalRate) {
         TicketPool.customerRetrievalRate = customerRetrievalRate;
     }
 
+    /**
+     *
+     * @return maxTicketCapacity
+     */
     public static int getMaxTicketCapacity() {
         return maxTicketCapacity;
     }
 
+    /**
+     *
+     * @param maxTicketCapacity value to set
+     */
     public static void setMaxTicketCapacity(int maxTicketCapacity) {
         TicketPool.maxTicketCapacity = maxTicketCapacity;
     }
 
+    /**
+     *
+     * @return totalTickets
+     */
     public static int getTotalTickets() {
         return totalTickets;
     }
 
+    /**
+     *
+     * @return ticketBookedCount
+     */
     public static int getTicketBookedCount() {
         ticketBookedCountLock.lock();
         try {
@@ -245,6 +321,10 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @param ticketBookedCount value to set
+     */
     public static void setTicketBookedCount(int ticketBookedCount) {
         ticketBookedCountLock.lock();
         try {
@@ -256,6 +336,10 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @return ticketCount
+     */
     public static int getTicketCount() {
         ticketCountLock.lock();
         try {
@@ -267,6 +351,10 @@ public class TicketPool {
         }
     }
 
+    /**
+     *
+     * @param ticketCount value to set
+     */
     public static void setTicketCount(int ticketCount) {
         ticketCountLock.lock();
         try {
