@@ -4,6 +4,10 @@
 
 This Ticket Booking Simulator is a multi-threaded Application that simulates a real-time ticket booking application with multiple vendor threads adding tickets and customer threads buying tickets.
 
+## Application Demo Video
+
+* [Video Demonstration of the simulator on YouTube](https://youtu.be/sPbViCDCplQ?si=7rEy7d1-sXLyS4Ht)
+
 ## Setup Instructions
 
 ### 1. Prerequisits
