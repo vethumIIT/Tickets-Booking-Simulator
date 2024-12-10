@@ -42,17 +42,17 @@ To use this application you have 2 options
 
 ##### 1. Get the Backend Running (`Spring Boot`)
 
-1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
+1. Step 1 Go to the following folder.`<Your-Project-file-Location>/Tickets-Booking-Simulator/BACKEND`
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
-3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketBookingSimApp.java` and run that file.
+3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>/Tickets-Booking-Simulator/BACKEND/ticket-booking-simulator/src/main/java/com/app/ticket_booking_simulator/TicketBookingSimApp.java` and run that file.
 
 4. Now you have the backend running.
 
 ##### 2. Get the Frontend Running (`ReactJS`)
 
-1. **Step 1**: Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\FRONTEND\ticketing-application`
+1. **Step 1**: Go to the following folder.`<Your-Project-file-Location>/Tickets-Booking-Simulator/FRONTEND/ticketing-application`
 
 2. **Step 2**: Open `Command Prompt` in the relavent folder
 
@@ -64,11 +64,11 @@ To use this application you have 2 options
 
 #### 2. CLI (Option)
 
-1. Step 1 Go to the following folder.`<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND`
+1. Step 1 Go to the following folder.`<Your-Project-file-Location>/Tickets-Booking-Simulator/BACKEND`
 
 2. Step 2: Open the relavent program in `Intellij IDEA`.
 
-3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND\ticket-booking-simulator\src\main\java\com\app\ticket_booking_simulator\TicketingApplicationCLI.java` and run that file.
+3. Step 3: In `Intellij IDEA` and locate the file `<Your-Project-file-Location>/Tickets-Booking-Simulator/BACKEND/ticket-booking-simulator/src/main/java/com/app/ticket_booking_simulator/TicketingApplicationCLI.java` and run that file.
 
 ## How to use the application
 
@@ -148,7 +148,7 @@ Below this you can see 3 tabs labeled Customers, Ticket Pool and Vendors. The Cu
 
 ## Data Files
 
-The data files are located in the `<Your-Project-file-Location>\Tickets-Booking-Simulator\BACKEND/ticket-booking-simulator/DataFiles` folder. Described below are the files in the DataFiles folder and what data they have.
+The data files are located in the `<Your-Project-file-Location>/Tickets-Booking-Simulator/BACKEND/ticket-booking-simulator/DataFiles` folder. Described below are the files in the DataFiles folder and what data they have.
 
 1. **`Logs.txt`**: This file contains the logs for the last simulation you ran on either the CLI or the Web Application.
 
