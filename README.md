@@ -7,6 +7,7 @@ This Ticket Booking Simulator is a multi-threaded Application that simulates a r
 ## Application Demo Video
 
 * [Video Demonstration of the simulator on YouTube](https://youtu.be/sPbViCDCplQ?si=7rEy7d1-sXLyS4Ht)
+*Note:* **Custom Subtitles** *have been added to this video in case the audio is unclear.*
 
 ## Setup Instructions
 
