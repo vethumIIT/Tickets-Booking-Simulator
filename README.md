@@ -97,7 +97,8 @@ Once you enter the final value, the simulation will start running and the logs o
     Enter customer retrieval rate: 10
     Enter maximum ticket capacity: 30
     Database Opened successfully!
-    Table Created Successfully!
+    Tables Created Successfully!
+    Starting...
     Vendors Started
     Vendor 7 added ticket no 1
     Customer 6 booked ticket no 1

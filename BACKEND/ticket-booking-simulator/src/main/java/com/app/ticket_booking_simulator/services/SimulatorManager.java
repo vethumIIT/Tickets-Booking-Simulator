@@ -136,8 +136,8 @@ public class SimulatorManager {
      *
      */
     public static void initialise(){
-        db.setup();
         LogManager.clearLogs();
+        db.setup();
         TicketPool.resetTicketPool();
         initialiseCustomerBookings();
         initialiseVendorTickets();
