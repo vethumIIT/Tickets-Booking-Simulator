@@ -154,6 +154,6 @@ The data files are located in the `<Your-Project-file-Location>/Tickets-Booking-
 
 2. **`configs.txt`**: This file contains the 4 configuration values in json format for the last run simulation.
 
-3. **`database.db`**: This database file contains the SQLite database containing informaion about all the tickets that were added to the ticket pool in the last simulation run. This database stores information of each ticket such as the ticket id, vendor id, customer id and whether the ticket was booked or not.
+3. **`database.db`**: This database file contains the SQLite database containing informaion about all the tickets that were added to the ticket pool as well as the customers and vendors information in the last simulation run. This database stores information of each ticket such as the ticket id, vendor id, customer id and whether the ticket was booked or not. It also stores the customer names and id's as well as the vendors names and id's.
 
 *Note that the DataFiles folder will be empty when you first download the project files, and will only be available after you run the first simulation.*
