@@ -45,7 +45,7 @@ public class TicketingApplicationCLI {
                 }
 
             } catch (InputMismatchException e) {
-                System.out.println("Your input must be a text");
+                System.out.println("Your input must be an integer");
                 input.next();
             }
         }
