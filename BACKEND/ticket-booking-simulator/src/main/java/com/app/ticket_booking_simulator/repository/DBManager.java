@@ -156,21 +156,36 @@ public class DBManager {
             LogManager.log("Database Opened successfully!");
 
             stmt = c.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS tickets (\n" +
+            String sql =
+                    "CREATE TABLE IF NOT EXISTS tickets (\n" +
                     "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                     "    vendor_id INTEGER, \n" +
                     "    customer_id INTEGER, \n" +
                     "    isAvailable BOOLEAN \n" +
+                    ");\n"+
+
+                    "CREATE TABLE IF NOT EXISTS customers (\n" +
+                    "    id PRIMARY KEY,\n" +
+                    "    name TEXT \n" +
+                    ");\n"+
+
+                    "CREATE TABLE IF NOT EXISTS vendors (\n" +
+                    "    id PRIMARY KEY,\n" +
+                    "    name TEXT \n" +
                     ");\n";
+
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
-            LogManager.log("Table Created Successfully!");
+            LogManager.log("Tables Created Successfully!");
 
             this.writeDatabase("DELETE FROM tickets",null);
+            this.writeDatabase("DELETE FROM customers",null);
+            this.writeDatabase("DELETE FROM vendors",null);
 
         }catch (Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            e.printStackTrace();
             System.exit(0);
         }
 

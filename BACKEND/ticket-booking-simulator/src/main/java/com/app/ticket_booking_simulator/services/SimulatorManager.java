@@ -66,10 +66,22 @@ public class SimulatorManager {
 
         initialise();
 
+        LogManager.log("Starting...");
         for(int i=1;i<=vendor_customer_count;i++) { // Defining vendor and customer Threads.
             int id = i;
             customers.add(new Thread(new Customer(id, customerDelayTime)));
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(id);
+            parameters.add("Customer "+id);
+
+            db.writeDatabase("INSERT INTO customers (id, name) VALUES (?, ?)", parameters);
+
             vendors.add(new Thread(new Vendor(id, vendorDelayTime)));
+            parameters = new ArrayList<>();
+            parameters.add(id);
+            parameters.add("Vendor "+id);
+
+            db.writeDatabase("INSERT INTO vendors (id, name) VALUES (?, ?)", parameters);
         }
 
         for(int i=1;i<=vendor_customer_count;i++){ // Starting vendor and customer Threads.

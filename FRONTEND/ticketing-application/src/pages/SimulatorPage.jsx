@@ -66,7 +66,7 @@ const SimulatorPage = () => {
         getVendorTickets();
         getTicketPool();
         getStats();
-        if (divRef.current) {
+        if (divRef.current && logs.length>10) {
             divRef.current.scrollTop = divRef.current.scrollHeight;
         }
     }
