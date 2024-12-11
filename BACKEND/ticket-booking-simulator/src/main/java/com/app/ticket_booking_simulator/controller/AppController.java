@@ -32,7 +32,6 @@ public class AppController {
             return ResponseEntity.ok("all fields must have a minimum value of 1");
         }
 
-        System.out.println("right before entering the if statement where we start simulator");
         if (!SimulatorManager.isRunningSimulator()) {
             System.out.println("starting run simulation");
             SimulatorManager.runSimulation(config);
